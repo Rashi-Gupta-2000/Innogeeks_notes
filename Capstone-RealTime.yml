@@ -1,0 +1,29 @@
+- Login to your AWS Console
+- Create an EC2 instance with basic details 
+- Install MongoDB -  https://docs.mongodb.com/manual/tutorial/install-mongodb-on-ubuntu/ 
+- Security Group -> TCP Port 27017 (Port Range)
+- Try in connect via RObo3T
+- In case it fails, try to connect via SHELL
+
+- Run mongo 
+> #Run all the mongo commands update, find in this symbol
+
+
+Elastic Search 
+  - searches the data in json objects which is much faster than normal search that takes hours in industries
+
+Bonsai - Elastic Search EKS
+  - Create a Cluster (Sandbox)
+  - Go to the Console
+  - PUT -> create index like /users
+  - GET -> /_cat/indices?v
+  - POST -> /users/user/1
+  {
+    "fullname":"Sachin Patil",
+    "designation":"CTO",
+    "age": 40
+  }
+  
+  - DELETE -> /users/user/2
+  - GET -> /users/user/1
+

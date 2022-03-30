@@ -1,0 +1,379 @@
+Docker
+  - Docker Engine --> Core Component
+
+Windows
+  - Docker Desktop
+    - No Docker Engine
+    - Utilities
+MacOS
+  - Docker Desktop
+    - No Docker Engine
+    - Utilities
+Linux (Any)
+  - Docker Engine with Utilities
+
+Installation
+  - https://docs.docker.com/engine/install/ubuntu/
+
+
+
+
+Virtual Machine
+
+
+Developer A --> Node 12.1, Mongo 5.2, Angular 6, Redis (DB), Socket, IO, KAFKA, Ubuntu 12
+Developer B --> Node 12.1, Mongo 5.2, Angular 6, Redis (DB), Socket, IO, KAFKA, Ubuntu 12
+Developer C --> Node 12.1, Mongo 5.2, Angular 6, Redis (DB), Socket, IO, KAFKA, Ubuntu 12
+Developer D --> Node 12.1, Mongo 5.2, Angular 6, Redis (DB), Socket, IO, KAFKA, Ubuntu 12
+
+apt-get install mongodb@5.2
+--> Repo corrupted, please install latest software --> mongo 9.1
+Test A,B,C
+Build A,B,C
+Deployment A,B,C
+..
+..
+1000 diff people
+
+
+
+GIT --> Software
+GitHUB --> SAAS Provider
+GitLab
+Bitbucket
+
+Container --> Concept
+Docker --> Software
+POD --> Software (It uses Docker internally)
+
+
+DevOps 
+TestOps
+DevSecOps
+
+admin/nimda
+
+HIPPA Complaint
+GDPR
+
+
+Continues Development
+Continues Deployment
+Continues Integration
+
+
+Pipelines
+============
+CD
+CI
+
+
+Jenkins
+Docker
+Kubernetes
+Terraform
+Ansible
+Selenium --> E2E Test tool
+...
+...
+500+
+Well known tools
+
+
+
+Docker
+----------------
+
+Docker Components
+  - Docker Engine
+  - Docker Desktop
+  - Docker Hub
+  - Docker Compose
+
+Docker Image
+  - Download Image
+    - sudo docker run node
+  - View Images
+    - sudo docker images
+  - Image is read only entity which will allow us to create N number of containers keeping the image same
+
+Docker Container 
+  - To create a simple container
+    - sudo docker run node
+    - sudo docker ps
+    - sudo docker ps -a
+    # all the containers will use the disk space same as the image
+    # containers are virtual
+    # image can't be removed until the container is deleted
+    - sudo docker rm <container_id or name>
+    # docker run --help
+    - sudo docker run -it node    #interact with the container
+    - docker build .
+
+Create a simple Node JS app
+  - Go to the same folder where Dockerfilr is kept
+  - npm init --yes 
+  - npm install express
+  - docker build .
+  - docker run -p 3000:3000 <imageId>  # -d is used to run it in a detached mode i.e. it leaves the shell
+  - docker stop <containerId>
+  - docker start <containerId>
+  - docker rm <containerId>
+  - docker rmi <imageId>
+
+
+Creating Python Docker
+  - sudo docker build -t mypython:v1 .
+  - sudo docker run -it --name mypycontainer1 mypython:v1
+
+
+By default docker run works in attached mode
+By default docker start works in detached mode 
+
+# We run in the attach mode to view the logs
+
+docker logs mynode
+docker logs -f --tail mydockernodev1
+docker logs -f --tail 10 mydockernodev1
+
+
+DAY#2
+
+
+Configuration FIle defines the expected destination configuration 
+  - Environment details --> Python needed as installed software on the top of basic OS
+  - Comments to be executed
+  - Source Code
+  - OR compiled Code
+
+- Complied Data from the configured file as a source for each deployment
+- Final Box/ Container where the program will actually run on ANY host
+
+- Dockerfile
+- Image
+- Container
+
+MAIN ROOT IMAGE with Basic Linux
+  - Installed softwares like Python 
+  - Complied the image and RE-PUBLISHED it to the Docker Hub
+    - Authorised Python Image
+    - Forked Python Image
+
+
+Publish the image to Docker Hub
+  - docker login
+  - docker push <reponame>:<tag>
+  - docker pull <reponame>:<tag>
+
+Getting inside the container 
+  - using container instead of hostOS
+  - sudo docker exec -it <container_name> bash  --> open container in interactive mode
+  - sudo docker run -it --name newinstance rashig00/incare:v1 bash
+    - the above command opens bash while creating the containers
+
+
+docker ps -a
+docker exec -it incare bash
+ls
+nano info.txt
+ls
+docker cp info.txt incare:/myapp/
+docker exec -it incare bash
+ls
+cat info.txt
+mv info.txt info1.txt
+docker cp incare:/myapp/info.txt ./
+ls
+cat info.txt
+
+# To attach a new tag to the existing image instead of creating a new one every time
+docker tag existing_image:tag aurelia/repo:latest 
+
+Basic NodeJS file
+  - npm init --yes
+  - npm install express
+  - npm install nodemon / sudo npm install -g nodemon
+  - Create index.js file
+  - node index.js   # We have to run this command after every modification in js file 
+  - nodemon index.js # just saving the file and reloading the page shows the changes
+  
+sudo docker build -t nodeapp:3.0 .
+sudo docker run --name mynode2 -p 3000:3500 nodeapp:3.0
+
+
+-it  ==> sudo docker run ke saath iterative mode kelie
+
+-i  ==> sudo docker start ke saath, container start krte waqt interative ke lie
+
+-t  ==> image ko naam dene ke lie , exactly tag
+
+-p  ==> Port ke lie
+
+sudo docker run -d --name mynode --rm -p 8000:5000 --env MYPORT=5000 nodeapp:2.0
+
+sudo docker run --name mynode56 -p 2000:4500 --env MYPORT=4500 nodeapp:1.0
+
+
+DAY#3
+
+DOCKER VOLUME
+  - Application Data Line index.js --> Typical Source Code
+    - Typically stored in the image
+  - Temporary Lata like Cache files, User uploaded images, assets etc.
+  - Permanent Storage like Database Files - Persistent Storage
+
+
+  - 3 types of volume
+    - Anonymous Volume
+      - This type of volume removed as soon as the container removed
+    - Named Volume
+    - Bind Mounts
+
+
+  - Create a File Management Application in Node JS
+    - npm install express fs body-partner path
+    - Create a Docker App to write file to the file system
+    - Compile the image from Dockerfile using
+        docker build -t filemanager:1.0 .
+    - Anonymous  -- sudo docker run --name fm -v /app/node_modules -d -p 3000:3000 filemanager:1.0
+    - docker volume ls
+    - docker volume inspect <foldername>
+    - Create a Named Container 
+      - Remove VOLUME definition from Dockerfile
+      - Create a new image
+      - Build new container using
+        docker run --name fm --rm -v assets:/app/assets -d -p 3000:3000 filemanager:4.0
+    - Create a bind mount  --> final command to create a container
+        docker run --name fm --rm
+        -v  assets:/app/assets
+        -v $(pwd):/app  #(pwd) = gives the path of the current working directory
+        -v /app/node_modules/
+        -d -p 3000:3000 filemanager:4.0
+    - .dockerignore
+
+Localhost:3000/create?filename=myfile&content=hi
+sudo docker volume prune
+sudo docker container prune
+
+
+DAY#4
+
+NodeJS + MongoDB
+Dockering NodeJS + Mongodb
+Networking
+Docker Compose
+Install and check the JENKINS
+
+- Multi Container System with MongoDB
+  - Created a Basic Database Connection script in NodeJS
+      npm install express mongoose
+      npm install -g nodemon
+  - Created a network using
+      docker network create mynetwork
+  - Created MongoDB container using
+      docker run -p 27017:27017 --name mongov1 --network mynetwork -d mongo
+  - Building the image of Node App
+  - Create a container of the NODE App using mynetwork network
+      docker run -p 3000:3000 --name nodemongo --network mynetwork nodemongo:1.0
+
+
+MongoDB on Port 27017
+Named Volume
+
+NodeJS on Port 3000
+Image Node
+Expose 3000
+Run the command
+Volume --> Bind Vol
+It should able to connect with MongoDB
+
+
+Docker Compose
+  - sudo docker-compose up  #up = used to run
+  - sudo docker-compose up -d
+  - sudo docker-compose down #down = used to remove
+
+
+
+
+
+Installation of Jenkins
+Introduction to Pipelines
+Docker Integration
+Deployment of python file to a destination with AWS
+- Create a Cloud Server and Connect
+    ssh -i "JENKINSAWS.pem" ubuntu@ec2-54-210-82-157.compute-1.amazonaws.com
+
+
+Create a new Jenkins Instance with Docker
+  - sudo docker run --rm --name myjenkins -d -v jenkins_home:/var/jenkins_home -p 8000:8000 -p 50000:50000 jenkins/jenkins:lts-jdk11
+  - sudo docker logs myjenkins
+password: 61e5e0dd705b48aa9f90467d16c891c0
+
+Complete Jenkins with Node Example
+  - Created a basic Node App
+  - Created a Repo in Github
+  - Pushed the source code in GitHub Repo
+  - Create a Jenkins Container on a Cloud or Local server
+  - Login to thr Jenkins Control Panel
+  - Go to Manage Jenkins -> Manage Plugins -> Search for NodeJS plugin -> Install and restart -> Select Restart Check Box
+  - Go to Manage Jenkins -> Global Tool Configuration -> NodeJS -> Add Node JS -> provide a name -> save
+
+  - Create a new Job with Free Style, provide the description
+  - Upon scroll down, under "Source Code Management" provide the Git Repo URL and add the Credentials if required
+  - Add a Build step from "Build" section as Execute Shell option, this will ask the Shell command, 
+    we need to install NPM so provide the command - npm install
+  - Under Build Environment -> provide Node $ npm bin/ folder to PATH -> 
+  - Once ready, select "Build Now" opton from left side
+  - Now, this is all working and node_modules folder is published. Let's move to the second half automation
+  - Remove the npm install Build Step (as it will happen automatically through Dockerfile)
+  - Now install Docker Plugin through Manage Jenkins -> Manage Plugins -> CloudBees Docker -> Install and restart
+  - Once the plugin installed, create a Docker Instance from Jenkins -> Global Tool Configuration -> Docker -> Add Docker -> provide name -> save
+  - Go to the Configure option of the job
+  - Create a Docker Hub Repo and note down the name of the repo -- aureliatech/nodemon:tagname
+  - Add a Build Step -> Docker Build and Publish -> provide repo name -> if required add credentials -> Go to advance ->Select the docker instance from the drop down -> save
+  - Go to advanced
+  - This will fail because docker will not be available inside the container. So now, we are using alternate solution 
+  - Build a fresh image from Docekrfile which is based on Jenkins image and then installs Docker using Shell Script
+    Docker Socket file. (Executable)
+  - Build the image on the server using - docker build -t jenkins_custom:1.0 .
+  - Now, we have a well configured custom image with a script which will download and install Docker Socket inside the container when it will be created
+    sudo docker run 
+    --name myjenkins
+    -d
+    -v  jenkins_home:/var/jenkins_home
+    -p 8080:8080
+    -p 50000:50000
+    -v /var/run/docker.sock:/var/run/docker.sock
+    jenkins_custom:1.0
+    
+
+
+sudo docker exec -it myjenkins bash
+cd workspace
+ls
+cd MyNodeApp
+exit
+sudo nano Dockerfile
+sudo docker stop myjenkins
+sudo docker rm myjenkins
+sudo docker build -t jenkins_custom:1.0 .
+sudo docker run 
+    --name myjenkins
+    -d
+    -v  jenkins_home:/var/jenkins_home
+    -p 8080:8080
+    -p 50000:50000
+    -v /var/run/docker.sock:/var/run/docker.sock
+    jenkins_custom:1.0
+
+cd /var/run/
+ls -ll
+sudo chgrp docker docker.sock
+ls -ll docker.sock
+
+
+March 9
+
+AWS
+    - Servers in the CLOUD

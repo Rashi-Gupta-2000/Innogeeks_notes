@@ -1,0 +1,28 @@
+Regions
+Availability Zones
+Data Centers
+
+
+EC2
+  - Instances
+  - Volumes
+  - Snapshots
+
+ls -ll InnoDemo1.pem
+chmod 400 InnoDemo1.pem
+ssh -i "InnoDemo1.pem" ubuntu@<public_ip_address>
+
+
+S3 (Global)
+  - Bucket => create 
+           => Upload file
+            => permissions - ACL and Block public access (bucket settings)
+
+can be used to host the websites
+
+- create a html file
+- publish the s3 image link in the file
+- now upload the folder on aws in S3 bucket
+- allow the static and add the index.html and error.html then save
+- how click the url in AWS to go to the webpage with the image 
+

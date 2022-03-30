@@ -1,0 +1,114 @@
+DATABASE 
+---------------
+
+- What is database?
+  - Database Server - RDBMS Type / DBMS / NoSQL (MongoDB)
+    - SQL-91 Standard to write the queries
+    - Database
+      - Table
+        - Rows and Cols
+  - Products
+    - Postgresql - pgadmin4
+    - MySQL - PhpMyAdmin
+    - MariaDB
+    - Oracle
+    - MsSQL Server
+    - Cassandra
+    - MongoDB
+    ..
+  - PostGresql Installation
+    - sudo sh -c 'echo "deb http://apt.postgresql.org/pub/repos/apt $(lsb_release -cs)-pgdg main" > /etc/apt/sources.list.d/pgdg.list'
+    - sudo apt update
+    - wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add -
+    - sudo apt-get update
+    - sudo apt-get -y install postgresql
+    - sudo apt install postgresql-contrib
+    - To Install pgAdmin4
+        curl https://www.pgadmin.org/static/packages_pgadmin_org.pub | sudo apt-key add
+        sudo sh -c 'echo "deb https://ftp.postgresql.org/pub/pgadmin/pgadmin4/apt/$(lsb_release -cs) pgadmin4 main" > /etc/apt/sources.list.d/pgadmin4.list && apt update'
+      - sudo apt update
+      - sudo apt install pgadmin4
+      - sudo /usr/pgadmin4/bin/setup-web.sh
+    - http://127.0.0.1/pgadmin4    #on the browser
+  - Once intallation is done, create a user, DB and allocate auth
+    - sudo su - postgres
+    - psql
+    - Run following queries
+        CREATE USER tecmint WITH PASSWORD 'securep@wd';
+        CREATE DATABASE tecmintdb;
+        GRANT ALL PRIVILEGES ON DATABASE tecmintdb to tecmint;
+        \q 
+ 
+  - MySQL
+
+  - Queries
+    - Create table
+    - data types
+      - Int
+      - Float
+      - Decimal
+      - Char    (255)  --> very space(memory) consuming (expensive)
+      - Varchar (255)
+      - Date
+      - Timestamp
+      - Time
+      - Bool {0,1}
+      - Enum ["India","SriLanka", "UAE"]
+    - Insert
+    - Select
+    - Auto Increament
+      - Serial --> Postgres
+      - AUTOINCREAMENT --> MySQL
+      - IDENTITY(1,1) --> MsSQL
+    - RELATIONSHIP
+      - PRIMARY KEY
+        - Unique KEY
+        - Not Null
+        - Usually, it is assigned to the ID col of the table
+        - Only 1 primary key in a table
+        Query
+            CREATE table roles(
+	          roleId int SERIAL PRIMARY KEY,
+	          rolename varchar(255),
+	          datecreated date,
+	          isSystemRole bool
+            );
+      - Foreign KEY
+        - It can be multiple FKs
+            create table users(
+	          userId SERIAL,
+	          first_name varchar(50),
+	          last_name varchar(50),
+	          roleId int references roles(roleId)
+            );
+      - ALTER TABLE
+          alter table users add column emailId varchar (100) unique
+          alter table users alter column emailId type varchar (150) 
+          alter table users alter column emailId type varchar (200) 
+
+      - DELETE and DROP
+          delete from users --> empty the table with or without where clause
+          drop table users --> drops the complete table with data
+          truncate table users;
+
+      - INSERT QUERY
+          insert into roles(rolename, datecreated, issystemrole) values ('Super Admin',now(),true)
+          insert into roles(rolename, datecreated, issystemrole) values ('Developer',now(),true)
+          insert into roles(rolename, datecreated, issystemrole) values ('Trainee',now(),false)
+          insert into roles(rolename, datecreated, issystemrole) values ('Manager',now(),false)
+
+          - ASSIGNMENT to check if this is possible?
+            insert into roles(rolename, datecreated, issystemrole) into 
+            select rolename, datecreated, issystemrole from rolesold where issystemrole is true
+
+      -- CRUD OPERATION
+        -- C
+        insert into roles(rolename, datecreated, issystemrole) values ('Super Admin',now(),true)
+        -- R
+        select * from roles
+        -- U
+        update roles set rolename = 'Sr. Manager' where roleid = 5
+        -- D
+        delete from roles where roleid = 5
+
+      

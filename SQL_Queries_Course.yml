@@ -1,0 +1,425 @@
+- Movies Database
+  select * from actors;
+  select * from directors;
+  select * from movies;
+  select * from movies_actors;
+  select * from movie_revenues;
+  
+  select first_name, last_name from directors;
+  select first_name as fname, last_name as lname from directors;
+  select * from movies where age_certificate = '15';
+  select * from movies where age_certificate = '15' AND movie_lang = 'English'; 
+  select * from movies where age_certificate = '15' OR movie_lang = 'English';
+  select * from movies where movie_length <=150 amd movie_length >= 100
+  select * from movies where movie_length IN (150,123,115,112)
+  select * from movies where movie_length NOT IN (150,123,115,112)
+  select * from movies where age_certificate IN ('18', 'U', 'PG')
+  select * from movies where age_certificate NOT IN ('18', 'U', 'PG')
+  select * from movies where movie_name like '%Now'
+  select * from movies where movie_name = 'City of Men'
+  select * from movies where movie_name like 'City of ___'
+  select * from actors;
+
+  select * from movies LIMIT 7 OFFSET 10
+  select * from movies LIMIT 10, 7  --> MySQL
+  select * from movies ORDER BY movie_id DESC LIMIT !
+  
+  select * from movies order by age_certificate DESC fetch first 5 row only
+  select * from movies fetch first 5 row only order by movie_id DESC
+  select movie_id,movie_name,movie_lang from movies OFFSET 10 ROWS FETCH FIRST 10 ROWS ONLY
+  select * from movies OFFSET 10 ROWS FETCH FIRST 10 ROWS ONLY
+  select * from movies FETCH FIRST ROWS ONLY order by movie_id DESC
+  select top 5 from movies --> MsSQL Server
+
+  select DISTINCT * from movies
+  select DISTINCT age_certificate from movies
+
+  select 'concat' || 'values' as completevalue
+  select 'mayur' || ' ' || 'patil' as fullname
+  select CONCAT(first_name,' ',last_name) as fullname from actors
+
+  select CONCAT_WS(' ', first_name, last_name, date_of_birth) as fullname from actors
+
+  select first_name || ' ' || last_name as fullname from actors
+
+  select * from pg_database;   --> This list out all the available databases
+  select * from pg_catalog.pg_tables where schemaname like 'public'  --> This list out all the available tables
+  select * from information_schema.columns where table_name = 'movies';   --> This describe the table cols
+
+
+  fullname varchar(100)
+  fullname char(100)
+  ABCEFG
+  insert into users () values ('ABC')
+
+
+
+#AGGREGATE Functions
+    - SUM, MAX, MIN, COUNT, AVG
+
+select * from movies
+select * from movie_revenues
+
+select count(*) from movies
+    - select count(movie_id) from movies
+select SUM(domestic_takings) as national_revenue from movie_revenues
+select MIN(domestic_takings) as minimum_revenue from movie_revenues
+select MAX(domestic_takings) as maximum_revenue from movie_revenues
+select AVG(domestic_takings) as average_revenue from movie_revenues
+
+- These 5 aggregate functions ignore the null values for all the calculations and does not consider the null column in the count 
+- null value is the place where no value is alloted and is not same as 0.
+- 'coalesce' can be use to treat null as zero 
+
+
+#GROUP BY
+
+select movie_lang from movies group by movie_lang
+select movie_lang, count(*) as movies from movies group by movie_lang
+select movie_lang, age_certificate, avg(movie_length) as movies from movies group by movie_lang, age_certificate
+
+#aggregate functions are not allowed in the where clause
+select movie_lang, count(movie_lang) from movies group by movie_lang having count(movie_lang) > 3
+select movie_lang, count(movie_lang) from movies where movie_length > 120 group by movie_lang having count(movie_lang) > 3
+
+
+#Math operations and Calc
+select 5 + 6 as T, 10-5 as M, 2 * 3 as multi, 10/2 as div;
+select 15 % 4 as modl;   ans == 3
+select movie_id, (domestic_takings + international_takings) as total, * from movie_revenues
+
+# Table Relations 
+  - One to One Relationship
+  - One to Many relationship
+  - many to many relationship
+
+# SQL Joins
+  - INNER JOIN
+
+    select 
+      directors.director_id,
+      directors.first_name,
+      directors.last_name,
+      movies.movie_name,
+      movies.movie_lang
+      from
+        directors
+        INNER JOIN 
+        movies
+      ON
+        directors.director_id = movies.director_id
+      where
+        movies.movie_lang = 'English'
+
+
+
+    select 
+      directors.director_id,
+      directors.first_name,
+      directors.last_name,
+      movies.movie_name,
+      movies.movie_lang,
+      movie.revenues.domestic_takings
+      from
+        directors
+        INNER JOIN 
+        movies
+      ON
+        directors.director_id = movies.director_id
+      inner join movie_revenues
+      on
+        movies.movie_id = movie_revenues.movie_id
+      where
+        movies.movie_lang = 'English'
+
+
+  - LEFT JOIN 
+
+    select 
+      d.director_id,
+      d.first_name,
+      d.last_name,
+      mo.moive_name
+        from directors d
+      left join 
+        movies mo
+          on 
+            d.director_id = mo.director_id
+
+
+  - swapping of the tables with left join - swap table
+    
+    select 
+      d.director_id,
+      d.first_name,
+      d.last_name,
+      mo.moive_name
+        from movies mo
+      left join 
+        directors d
+          on 
+            d.director_id = mo.director_id
+
+
+  - RIGHT JOIN
+    -- right join eq to swap table with original query
+    select 
+      d.director_id,
+      d.first_name,
+      d.last_name,
+      mo.moive_name
+        from directors d
+      right join 
+        movies mo
+          on 
+            d.director_id = mo.director_id
+
+  - FULL JOIN
+
+    select 
+      d.director_id,
+      d.first_name,
+      d.last_name,
+      mo.moive_name
+        from directors d
+      full join 
+        movies mo
+          on 
+            d.director_id = mo.director_id
+
+
+# UNION  --> removes duplicates  (number of columns should be same)
+  select first_name, last_name from actors
+  union 
+  select first_name, last_name from directors
+
+#UNION ALL --> keeps the duplicate values
+  select first_name, last_name, gender from actors
+  UNION ALL
+  select first_name, last_name, nationality from directors
+
+
+# INTERSECT --> common data b/w the tables (number of columns should be same)
+  select first_name from actors
+  intersect
+  select first_name from directors
+
+
+# EXCEPT --> uncommon data
+  select first_name from actors
+  except
+  select first_name from directors
+
+# SUBQUERIES
+  - NON-CORELATED SUB Q
+      select movie_name, movie_length from movies 
+        where movie_length > (select avg(movie_length) from movies)
+        
+  - CORELATED SUB Q
+      select 
+        d1.first_name,
+        d1.last_name,
+        d1.date_of_birth,
+        d1.nationality,
+        (select MAX(date _of_birth) from directors) as AVGDOB
+          from directors d1
+        where date_of_birth = (select MIN(date_of_birth) from directors d2 where d2.nationality = d1.nationality)
+                                      [oldest director]
+
+
+      select movie_name from movies 
+      where
+        movie_id IN
+            (
+              select movie_id from movie_revenues where international_takings > domestic_takings
+                UNION ALL
+              select movie_id from movie_revenues where international_takings < domestic_takings
+            )
+
+      select 
+        mo.movie_id,
+        mo.movie_name,
+        d.first_name,
+        d.last_name
+      from movies mo
+        join directors d
+          on mo.director_id = d.director_id
+      where
+        movie_id IN
+          (
+            select movie_id from movie_revenues where international_takings > domestic_takings
+              UNION ALL
+            select movie_id from movie_revenues where international_takings < domestic_takings
+          )
+
+
+# String Functions
+  select UPPER('rashi gupta')
+  select LOWER('RASHI GUPTA')
+  select INITCAP('rashi gupta')      = Rashi Gupta
+  select *, UPPER(first_name) as CAP from actors
+  select LEFT( 'INDIA', 3 )          = IND
+  select LEFT( 'INDIA', -3 )         = IN  (remove last 3 char)
+  select RIGHT('INDIA', 3)           = DIA
+  select RIGHT('INDIA', -3)          = IA
+  select *, LEFT(movie_name, 5) from movies
+  select REVERSE('INDIA')            = AIDNI
+  select substring('INDIA', 2, 3)    = NDI
+  select REPLACE('I AM FROM INDIA', 'INDIA', 'USA')         = I AM FROM USA
+  select SPLIT_PART('firstname.lastname@google.com','@',1)  = firstname.lastname
+
+  select date_of_birth::TEXT from directors
+  select SPLIT_PART(date_of_birth::TEXT,'-',1) from directors
+  select SPLIT_PART(date_of_birth::VARCHAR(50),'-',1) from directors
+  select SPLIT_PART(date_of_birth::VARCHAR(2),'-',1) from directors
+  select REPLACE(date_of_birth::VARCHAR(10),'-','/') from directors
+  
+#JSON - JavaScript Object Notation
+    - JSON
+    - JSONB   --> binary
+
+[
+  {
+    'actor_id':1,
+    'first_name':'Malin',
+    'last_name':'Akerman'
+  },
+  {
+    'actor_id':2,
+    'first_name':'Tim',
+    'last_name':'Allen'
+  }
+]
+
+-- now the default gives in text format 
+select '{title:"Iron Man"}'   
+
+-- To type cast into text if not by default
+select '{title:"Iron Man"}'::TEXT
+
+-- To prserve the spaces 
+select '{"title":"Iron Man"}'::JSON
+ 
+-- To NOT to preserve the spaces
+select '{
+  
+  
+  
+  "title":"Iron Man"
+  
+  }'::JSONB
+
+
+create table books(
+    bookId SERIAL PRIMARY KEY,
+    bookinfo JSONB
+)
+
+insert into books (bookinfo) values ( '{ "title":"Book 3"}' )
+select * from books
+insert into books (bookinfo) values ( '{ "title":"Book 4", "author":"Author 1"}' )
+select bookid, bookinfo->'title' from books        --> shows entire value wrapped in quotes
+select bookid,bookinfo, bookinfo->>'author' as author from books   --> shows only content 
+
+update books set bookinfo = bookinfo || '{"author":"Author 1 Modify"}'
+where bookId = 1
+
+update books set bookinfo = bookinfo || '{"author":"Author 22", "category":"Science"}'
+where bookinfo->> 'author'='Author 1'
+
+update books set bookinfo = bookinfo - 'category'
+where bookinfo->> 'author'='Author 22'
+
+
+select * from directors
+
+-- converts entire table into json object
+select row_to_json(directors) from directors
+select row_to_json(mydirectors) from (select directors_id, first_name, last_name from directors) as mydirectors
+
+
+#VIEWS  -- virtual representation of any statement and you give a particular name to that statement which act as virtual table where you can perform operations without affecting the actual table 
+  CREATE OR REPLACE VIEW moviedetails
+  as
+    select movies.*, directors.first_name, directors.last_name from movies
+    inner join directors
+    on movies.director_id = directors.director_id
+
+  select movie_id, movie_name, first_name, last_name from moviedetails 
+
+# TRIGGERS
+  - A trigger is defined as any event that sets a course of sequence / action in a realtime environment
+  - EVENTS
+    - INSERT, UPDATE, DELETE, TRUNCATE
+      -- Triggers can be associated on table or views
+    - WHEN 
+      - BEFORE
+      - AFTER 
+      - INSTEAD
+    - LEVEL 
+      - TABLE
+      - ROW
+
+update director set first_name = 'unknown'
+
+Directors --> 120 Rows
+
+
+
+create table players(
+  player_id SERIAL PRIMARY KEY,
+  name varchar(100)
+);
+
+select * from players
+update players set name = 'Mahendra Singh Dhoni' where player_id = 2
+
+create table players_audits(
+  player_audit_id SERIAL PRIMARY KEY,
+  player_id INT NOT NULL,
+  name varchar(100),
+  edit_date TIMESTAMP NOT NULL
+)
+
+insert into players (name) value ('Sachin Tendulkar')
+insert into players (name) value ('MS Dhoni')
+insert into players (name) value ('Virat Kohli')
+
+
+-- FUNCTION is logic which will be executed/triggered on TRIGGERED EVENT
+
+CREATE OR REPLACE FUNCTION fn_player_name_changes_log()
+  RETURN TRIGGER
+  LANGUAGE PLPGSQL
+  as
+  $$
+    BEGIN 
+      -- intoduce your business logic
+        -- NEW and OLD
+
+      IF NEW.name <> OLD.name THEN
+        insert into players_audits (player_id, name, edit_date) values (OLD.player_id, OLD.name, now());
+      END IF;
+
+      RETURN NEW;
+    END;
+  $$
+
+
+-- Creating a trigger for the function on the table player
+
+CREATE TRIGGER trigger_players_name_changes
+-- BEFORE|AFTER|INSTEAD    INSERT|UPDATE|DELETE|TRUNCATE
+  BEFORE UPDATE
+  ON players
+  FOR EACH ROW
+    EXECUTE PROCEDURE fn_player_name_changes_log();
+
+
+update players set name = 'Mahendra Singh Dhoni' where player_id = 2
+update players set name = 'MSD' where player_id = 2
+update players set name = 'Sourav Ganguly' where player_id = 2
+
+select * from players;
+select * from player_audits;   #shows the old name the one which has been changed
+
