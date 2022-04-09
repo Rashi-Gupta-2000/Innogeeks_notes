@@ -1,0 +1,112 @@
+DB-API  = Python Database API
+SQLAlchemy ORM -
+
+sqlite -> client db
+
+DB-API 
+
+1. connect to database
+2. create a cursor
+3. write a query
+4. commit changes
+5. close connect
+
+INTEGER
+Int, Integer
+
+TEXT
+Char, Varchar, text
+
+NONE
+BLOB, no datatype specified
+
+REAL
+double, float
+
+NUMERIC
+decimal, boolean, date, datetime
+
+commit = only when we need to modify it
+cursor stores the value in the memory until commit
+cursor refreshes every time after commit
+while doing any operation on a single field if there is no {,} it considers each letter as a different item 
+                                                              -- will give error
+
+
+POSTGRESQL
+
+sudo apt-get install python-pip
+sudo apt-get update
+sudo apt-get install libpq-dev python-dev
+sudo pip install psycopg2 
+
+# Master key - Jaipur@2018 
+# Server
+# username - rashi 
+# password - 1234
+
+
+ALCHEMY
+
+sudo pip install virtualenv
+virtualenv venv
+source venv/bin/activate  -- to enter in virtual environment
+pip install sqlalchemy
+pip freeze > requirements.txt  -- to see the installations and version numbers
+
+create_engine('postgresql://postgress:123456@localhost:5432/python_test') 
+#If only models.py is running then execute this table
+deactivate -- to deactivate
+
+Run in the terminal 
+- import models
+- user_b=models.User(name='Rashi',fullname='Rashi Gupta',lastname='Gupta')
+- user_b.name
+- str(user_b.id)
+- models.session.add(user_b)
+- models.session.new  # just to the data we are going to insert
+- models.session.commit()
+- models.session.query(models.User).all() # give all the entries added in the table
+
+#column specific
+rows=session.query(User.name,User.lastname).all()
+rows_where=session.query(User).filter(User.name=='Rashi')
+print(rows_where)
+rows=session.query(User).get(1)
+print(session.query(User).filter(User.name=='Pooja').all())
+
+print(session.query(User).filter(User.name.ilike('P%'), User.lastname.ilike('m%')).all())  #same
+print(session.query(User).filter(or_(User.name.ilike('P%'), User.lastname.ilike('m%'))).all())
+print(session.query(User).filter(and_(User.name.ilike('P%'), User.lastname.ilike('m%'))).all()) #same
+print(session.query(User).filter(not_(User.name.like('P%'))).all())
+print(session.query(User).filter(User.name.like('P%')).order_by(desc(User.id)).all())
+
+
+all - get all data
+count() - total number of records
+first() - first result, NONE
+get(pk)
+limit()
+order by -> order_by
+group by
+like -> classname.columnname.like('p%')  #case sensitive
+ilike -> classname.columnname.ilike('p%')
+or_()
+and_()
+not_()
+
+#UPDATE -- 3 ways
+models.session.query(models.User).filter(models.User.name=='Rashi').update({"lastname":"Mehra"},synchronize_session='fetch')
+session.query(User).filter(User.name=='Rashi').update({"lastname":"Mehra"},synchronize_session='fetch')
+session.query(User).filter(User.id == 4).update({"lastname":"Mehra"},synchronize_session='fetch')
+session.query(User).filter(User.name=='Rashi').update({"lastname":"Mehra"},synchronize_session=False)
+evaluate method
+
+#DELETE
+
+i = models.session.query(models.User).get(5)
+models.session.delete(i)
+
+
+tkinter => library -- used for creating frontend of desktop applications
+sudo apt-get install python3-tk
