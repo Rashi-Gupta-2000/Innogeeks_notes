@@ -55,24 +55,35 @@ pip install sqlalchemy
 pip freeze > requirements.txt  -- to see the installations and version numbers
 
 create_engine('postgresql://postgress:123456@localhost:5432/python_test') 
-#If only models.py is running then execute this table
+
 deactivate -- to deactivate
+
+engine = create_engine('sqlite:///final.db', echo=True)
+create engine is just like connect in sqlite or postgres
+
+echo -> used to see which query is actually used - select,delete,update,insert
+declarative -> description of the table - name of the table, columns
+def __repr__(self): class helps printing in the console
+if __name__=='__main__': 
+    Base.metadata.create_all(engine)
+    - If only models.py is running then execute this table
 
 Run in the terminal 
 - import models
 - user_b=models.User(name='Rashi',fullname='Rashi Gupta',lastname='Gupta')
 - user_b.name
-- str(user_b.id)
+- str(user_b.id) #none - because not added to the database
 - models.session.add(user_b)
 - models.session.new  # just to the data we are going to insert
 - models.session.commit()
 - models.session.query(models.User).all() # give all the entries added in the table
+- models.session.query(models.User).count()
 
 #column specific
 rows=session.query(User.name,User.lastname).all()
 rows_where=session.query(User).filter(User.name=='Rashi')
 print(rows_where)
-rows=session.query(User).get(1)
+rows=session.query(User).get(1) # get user with id=1 
 print(session.query(User).filter(User.name=='Pooja').all())
 
 print(session.query(User).filter(User.name.ilike('P%'), User.lastname.ilike('m%')).all())  #same
