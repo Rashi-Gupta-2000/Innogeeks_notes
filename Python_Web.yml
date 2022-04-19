@@ -1,0 +1,122 @@
+WSGI -> 
+
+Werkzeug -> 
+
+jinja2 -> 
+
+
+sudo pip install virtualenv
+virtualenv venv
+source venv/bin/activate 
+
+> venv
+pip install flask
+        OR
+sudo apt install python3-flask
+
+- REDIRECTION
+- HTTP protocols
+- render template
+- Cookies
+- abort
+
+get	Default. Appends the form-data to the URL in name/value pairs: URL?name=value&name=value
+post	Sends the form-data as an HTTP post transaction
+
+#for different directories
+import os
+import flask from Flask
+template_dir = os.path.abspath('../.../frontend/src')
+app=Flask(__name__,template_folder=template_dir)
+
+
+{%  %} -> for statements
+{{  }} -> for expressions
+{#  #} -> for comments 
+
+FLASK with sqlite3
+
+with handles everything all the errors and closes all automatically
+
+
+FLASK with SQLalchemy
+
+- in the virtual environment
+        - pip install flask-sqlalchemy
+
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///students.sqlite3'
+        - for us to provide the database url
+
+def __init__(self,name,city):
+        self.name=name
+        self.city=city
+                - for no error to occur and bind the constraints to the table
+                - constructor of the class
+
+
+REST API
+
+pip install flask_restful 
+pip install requests
+
+table name is always in lowercase
+
+put and post are the same 
+patch -> update/modify data in the database
+
+
+# DJANGO
+
+in the virual environment
+        - pip install django
+        - django-admin startproject <projectname> .   --> to create the project
+        - python3 manage.py runserver       --> to start the server (on 8000 port by default)
+        - python3 manage.py migrate         --> to make the migration in the database
+        - python3 manage.py createsuperuser       --> to create a user with admin level permissions
+
+        - python3 manage.py startapp <appname>        --> app are functionalities of the project
+
+        - python3 manage.py makemigrations -> apply migration  do this when a new database is created, or any change in any database is made
+        - python3 manage.py migrate
+        
+always run the full project and not the applications made inside it
+
+models <-> views <-> html
+
+list the app in the settings.py of project
+
+importing table named User from the database
+Create your models here.
+models create database fields
+views converts model properties to templates
+
+adds the current date
+slugs are kind of the endpoints we discussed in RESTapi
+foreign key established, on_delete means delete the column also when the target foreign key is also deleted
+
+--> models.py is responsible for the database handling
+        --> also for the admin/ panel
+        --> slug is like an identifier for the view (discussed later)
+        --> __str__ --> function to name the entry correctly in the admin panel
+
+- admin panel
+        - we can basically do everything about our data (models) from the admin panel    
+        - login with the credentials of superuser we created
+
+--> path('<route>', views.<name_of_the_view>, name='alias')
+    - the alias will be used as url if we want to get this view from any template
+--> about/ -> / after about becuase in the later part we are accessing <slug:slug> and if we enter about only
+    without any /, it will consider it as an slug, and will thorw error if there is no such entry corresponding to that slug
+--> path('<slug:slug>', views.BlogView.as_view(), name='blog_view'),
+    - slug:slug --> first slug is identifier, second slug is the slug value we want to get
+    - as_view() takes the slug argument and initiates the view
+
+- templates
+        - we will be creating a base html file, named base.html (not neccessary to be the same name), and in it
+            we will put the content which we want to display on more than one pages, so we dont have to write it again and can just 
+            extend the base file and insert out content into the block
+
+--> link tag in the head tag contains the link for the bootstrap CSS
+--> script tag in body tags contain the bootstrap css
+--> block content and endblock content specifies the area in which our content will be inserted
+                

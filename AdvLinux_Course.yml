@@ -1,0 +1,44 @@
+- create an ec2 instance with key pair
+
+Some best practises to follow in linux for security purpose-
+1. Enforce the Login Password Strong Policy - the password has no expiry and will last forever 
+    (passwd - set the password for a user)
+    sudo nano login.defs
+    - PASS_MAX_DAYS setting should change to a smaller no. of days. This basically set the life to the current password.
+    - Create a rule for a Complex Password
+      - sudo apt install libpam-pwquality
+      - go to /etc/pam.d/
+      - sudo nano common-password
+  
+  minlen=6 maxrepeat=3 ucredit=-1 lcredit=-1 dcredit=-1 ocredit=-1 difok=4 reject_username enforce_for_root
+    
+        retry=3: This option will prompt the user 3 times before exiting and returning an error.
+        minlen=12: This specifies that the password cannot be less than 12 characters.
+        maxrepeat=3: This allows implies that only a maximum of 3 repeated characters can be included in the password.
+        ucredit=-1: The option requires at least one uppercase character in the password.
+        lcredit=-1: The option requires at least one lowercase character in the password.
+        dcredit=-1: This implies that the password should have at last a numeric character.
+        ocredit=-1: The option requires at least one special character included in the password.
+        difok=3: This implies that only a  maximum of 3 character changes in the new password should be present in the old password.
+        reject_username: The option rejects a password if it consists of the username either in its normal way or in reverse.
+        enforce_for_root: This ensures that the password policies are adhered to even if it's the root user configuring the passwords.
+
+2. SSH Hardening Process
+  - go to the file location /etc/ssh/ 
+  - sudo nano sshd_config
+  1. Disable Empty Password
+    - PermitEmptyPassword no 
+  2. Default Port SSH from 22(default) to something else like 2121 (change in ec2 instance port range as well)
+  3. Disable root login to SSH
+    - PermitRootLogin no
+  4. Configure the SSH Protocol
+    - Protocol 2 (ssh version 1 and version 2)
+  5. Idle Timeout
+    - ClientAliveInterval 120 --> 120 seconds
+  6.Allow Specific group of users or specific user to the SSH Protocol 
+    - AllowUsers User1, User2, User3
+    - AllowGroups Group1, Group2, Group3
+  7. Disable password based SSH
+    - PasswordAuthentication no (should always have the key)
+
+restart sshd service -- sudo systemctl restart sshd
