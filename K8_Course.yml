@@ -1,0 +1,109 @@
+Kubernetes 
+  - it is by google
+  - not a replacement for Docker
+  - it manages the container
+  - Cluster --have--> nodes --have--> PODs --have--> containers
+  - POD --> Container Wrappper
+  - Container --> Container by docker
+  - Node --> Host Machine
+  - Cluster --> Collection of Nodes
+  - master node is there to connect all the machines, and in this machine K8 is ran
+  - master node is also a part of cluster
+  - Softwares 
+    - Docker / VirtualBox(linux driver)
+    - Kubectl
+      - Kubelet --> primary cli to interact with K8
+      - kubelet-proxy --> Network Communication Service
+    - minikube
+      - minikube use drivers while making clusters
+      - drivers means virtual machines 
+      - example of drivers
+          - Docker, KVM2, VirtualBox, Podman, None (bare-metal), SSH
+
+
+Installation 
+- Go to https://kubernetes.io/ and find kubectl to install in linux 
+                                OR
+  Go to https://kubernetes.io/docs/tasks/tools/install-kubectl-linux/
+
+- https://minikube.sigs.k8s.io/docs/start/
+      - To start a cluster, run: "minikube start" -- empty cluster (not recommended)
+
+- https://www.virtualbox.org/wiki/Linux_Downloads
+    - sudo apt-get update
+    - sudo apt-get install virtualbox-6.1
+
+Configure Minikube
+    sudo usermod -aG docker $USER && newgrp docker
+    minikube start --driver=<Driver Name>        -> docker
+
+- Common commands
+  - minikube status --> to chekc the status of min8ikube
+  - kubectl cluster-info --> to check the status of kubectl
+
+Everything is Object
+- Pods, Deployments, Services, Volume, Network etc.
+
+  • Pods
+    - Pod will run inside a Node
+    - Pod contains the Containers
+    - Usually, 1 Pod contains 1 Container
+    • It has cluster IP (Internal)
+    - Containers inside the POD can communicate with each other using localhost
+    - Pods are ephemeral. i.e. Pods are temporary, and Kubectl add/remove PODS on run time based on the load/traffic/requirement
+    • To manage Pods controller is required e.g. Deployment Object
+
+  - Deployment
+    - It controls the Pods
+    - You can set your desire, K8 will change the state using Deployment
+    • It defines that which POD and Container to run and how number of instances
+    - Deployment is scalable
+    - We don't directly deal with PODS, but deployment setup the PODS.
+
+  - services
+    - helps to establish a network link with pods/server/local machine
+
+
+STEPS - 
+
+1. Create a repo on dockerhub - kube-first-app
+2. npm init -yes
+3. npm install express body-parser
+4. create and code app.js, Dockerfile
+docker images
+5. create a local image out of docker file
+  sudo docker build -t rashig00/kube-first-app:latest .
+6. tag the local image with docker hub repo name
+    to change the name of the image to the one at dockerhub
+      sudo docker tag first-app rashig00/kube-first-app:latest
+7. push the image 
+  sudo docker login
+  sudo docker push rashig00/kube-first-app:latest
+
+  https://hub.docker.com/repository/docker/rashig00/kube-first-app
+
+8. Create a New Deployment (first-app) with the Docker Hub Repo Image  
+    - kubectl create deployment first-app --image rashig00/kube-first-app:latest
+      - first-app is the name of deployment
+      - this will create a deployment and a pod 
+  To check, we can get the Pods and Deployments using
+    - kubectl get deployments --> list all the deployments
+    - kubectl get pods --> list all the pods
+    - kubectl get services
+  To check the Web based status, in detail
+    - minikube dashboard
+  Create the Service to access the Pod's application using load balancing tech
+    - kubectl expose deployment first-app --port=8080 --type=LoadBalancer
+      --> the port is the one we exposed in dockerfile
+    - sudo usermod -aG docker $USER && newgrp docker
+    - minikube service first-app --url
+      --> This will return the url of the service
+
+Give /error in the url and run this again - kubectl get deployments, kubectl get pods 
+    - k8 will restart the service  
+
+minikube can install only one engine, if we want to start new engine then we have to delete
+    the previously created engines using
+      - minikube delete --all
+    
+    kubectl delete deployment first-app
