@@ -1,4 +1,4 @@
-Kubernetes 
+Kubernetes  
   - it is by google
   - not a replacement for Docker
   - it manages the container
@@ -15,6 +15,9 @@ Kubernetes
       - Kubelet --> primary cli to interact with K8
       - kubelet-proxy --> Network Communication Service
     - minikube
+      - in production we have multiple physical or virtual machines 
+        so for a local machine master and worker processes work on 1 machine 
+        i.e. 1 node and has docker conatainer already installed
       - minikube use drivers while making clusters
       - drivers means virtual machines 
       - example of drivers
@@ -35,7 +38,7 @@ Installation
 
 Configure Minikube
     sudo usermod -aG docker $USER && newgrp docker
-    minikube start --driver=<Driver Name>        -> docker
+    minikube start --driver=<Driver Name>        = docker
 
 - Common commands
   - minikube status --> to chekc the status of min8ikube
@@ -106,4 +109,106 @@ minikube can install only one engine, if we want to start new engine then we hav
     the previously created engines using
       - minikube delete --all
     
+- CleanUp
+    kubectl delete service hello-node
     kubectl delete deployment first-app
+    
+- To fetch the details
+    kubectl describe deployments
+
+- Scaling
+    kubectl scale deployment/first-app --replicas=3 # don't use this way for scaling
+
+Amazon Elastic Kubernetes Service (EKS) , home in linux is at /home/user
+
+- Update the image
+  - Modify the source code
+  - docker build -t rashig00/kube-first-app:2 .
+  - docker push rashig00/kube-first-app:2
+  - kubectl set image deployment/first-app kube-first-app=rashig00/kube-first-app:2 -> to update the image
+      - kube-first-app is the name of the container
+      - find it by -> kubectl describe deployments
+  - kubectl rollout status deployment/first-app
+  - kubectl get pods
+
+
+# NEW APP
+
+Using yaml file automation
+  - create deployment.yaml
+  - create service.yaml
+  To apply both files
+    - kubectl apply -f=deployment.yaml
+    - kubectl apply -f=service.yaml
+  To delete both files
+    - kubectl delete -f=deployment.yaml
+    - kubectl delete -f=service.yaml
+  - sudo usermod -aG docker $USER && newgrp docker
+  - minikube service backend --url
+
+make changes in the deployment.yaml file and apply the deployment file again 
+the changes will be made on the browser sutomatically
+
+
+
+REPLACEMENT FOR MINIKUBE
+
+AWS 
+  - For private data centers using Minikube
+  • cloud Providers i.e. AWS, Azure, Google Cloud ect..
+    - Handle Manually using EC2 / VMs manually
+    - Use managed services like AWS EKS.
+
+  - Create a Cluster using EKS
+    - Go to EKS Service in the AWS Console
+    - Name the cluster, in my case it's eksCluster
+    - Open a new tab and go to IAM Service
+    - Create New Role
+      - Select AWS Service Type
+      - Under the Use Cases -> Select EKS from the Drop Down -> Select EKS Cluster option to allow cluster permissions to 
+      - Name EKS Role and Create it without any further modifications. i.e. eksClusterRole
+      - Go back to the Cluster Creation Page, reload the role dropdown and select the item 
+    - Create a new VPC 
+      - Go to Cloud Formation 
+      - Create Stack
+      - Go to https://docs.aws.amazon.com/eks/latest/userguide/creating-a-vpc.html#create-vpc
+      - Select the IPv4 url and provide the URL into the Cloud Formation Template S3 field
+      - Without further modification, provide a name to VPC and create the stack. i.e. eksVpc
+      - Go back to Cluster page and refresh the drop down of VPC ad select eksVpc vpc
+    - Further select Cluster End Point Access to Public and Private 
+    - Move towards without any modificaions and create the cluster
+
+    - Install AWS cli on your machine 
+        https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html#cliv2-linux-install
+          - curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+          - unzip awscliv2.zip
+          - sudo ./aws/install
+          - aws --version
+    - to update the config file of kubectl, that can be found in the home directory in the .kube folder
+    - generate AWS Access Key by selecting the security tab from the profile window or from the IAM page
+    - make sure to download the CSV File of access key
+    - Now, go to the command prompt to configue the AWS with these new Access Keys
+      RUN ->  aws configure
+    - Connect and create a context with your logged in AWS account, CLuster and local kubectl
+      RUN ->  aws eks --region us-east-1 update-kubeconfig --name eksCluster
+              kubectl get pods
+    - Go to Cluster -> Configuration -> Compute -> Create NOde Group 
+    - Create Role for Node Group 
+      - Go to IAM
+      - Create Role
+      - Select EC2 Use Case and click next 
+      - Search following and choose the appropriate settings - 
+        - Search eksworker -> AmazonEKSWorkerNodePolicy
+        - Search cni -> AmazonEKS_CNI_Policy
+        - Search ec2containerreg -> AmazonEC2ContainerRegistryReadOnly
+      - Once done, go back to the Node Group Creation, refresh the role and select the role you created
+      - Once instance are ready, create Node JS, deployment and service xml and apply it through kubectl
+      - kubectl get services will return the URL of ELB to access the web portal  
+
+
+
+
+
+
+
+

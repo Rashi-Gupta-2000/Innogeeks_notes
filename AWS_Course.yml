@@ -306,3 +306,28 @@ account security -
 go to services -> RDS -> create database -> easy create -> free tier -> username, password, dbname
 all the queries will run the same and snapshots are also a feature
 
+# AWS CLI
+  - Install and configure the AWS cli
+
+AWS CloudShell commands - 
+  - cd /
+  - aws iam list-users
+  - aws ec2 describe-instances
+  - aws ec2 stop-instances --instance-ids i-<instance_id>
+  - aws ec2 start-instances --instance-ids i-<instance_id>
+  - aws ec2 terminate-instances --instance-ids i-<instance_id>
+  - aws ec2 describe-volumes
+  - aws ec2 run-instances --image-id ami-22111148 --count 1 --instance-type t1.micro --key-name stage-key --security-groups my-aws-security-group
+    (ami = amazon machine image)
+
+# AWS SDK
+    - BODO API (SDK for python)
+
+API - application programming interface  -- sent a request from anywhere
+SDK - software development kit -- include in the project
+
+pip install boto3
+
+do everything with ec2 via boto3 in .py files --> run using python3 listec2.py
+do everything with s3 via boto3 in .py files --> run using python3 lists3.py
+  - create a s3 bucket using aws console
