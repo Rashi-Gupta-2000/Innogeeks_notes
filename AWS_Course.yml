@@ -331,3 +331,32 @@ pip install boto3
 do everything with ec2 via boto3 in .py files --> run using python3 listec2.py
 do everything with s3 via boto3 in .py files --> run using python3 lists3.py
   - create a s3 bucket using aws console
+
+# CI / CD with AWS
+  - CI
+    - Developer -> Push to the GIT -> Integrate 
+  - CD
+    - Integrate -> Build -> Test -> Deploy
+
+- AWS CI/CD Tools
+  - Code Commit -> GIT / Repository
+  - Code Pipeline (CI/CD) (Elastic Beanstalk)
+  - Code Build 
+  - Code Deloy 
+  - Code Star
+  - Code Artifacts
+  - S3
+  - CodeGuru (Efficiency)
+
+- Hands On
+  - Create a Repo
+  - Publish a NodeJS Repo
+  - Create a pipeline
+  - Deploy the code on ec2 Instance
+  - It should reload the NodeJS instance
+
+- Code Commit
+  - Create an empty repo 
+    copy the git clone command
+- Elastic Beanstalk
+  - 
