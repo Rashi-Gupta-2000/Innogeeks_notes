@@ -1,0 +1,214 @@
+Kubernetes  
+  - it is by google
+  - not a replacement for Docker
+  - it manages the container
+  - Cluster --have--> nodes --have--> PODs --have--> containers
+  - POD --> Container Wrappper
+  - Container --> Container by docker
+  - Node --> Host Machine
+  - Cluster --> Collection of Nodes
+  - master node is there to connect all the machines, and in this machine K8 is ran
+  - master node is also a part of cluster
+  - Softwares 
+    - Docker / VirtualBox(linux driver)
+    - Kubectl
+      - Kubelet --> primary cli to interact with K8
+      - kubelet-proxy --> Network Communication Service
+    - minikube
+      - in production we have multiple physical or virtual machines 
+        so for a local machine master and worker processes work on 1 machine 
+        i.e. 1 node and has docker conatainer already installed
+      - minikube use drivers while making clusters
+      - drivers means virtual machines 
+      - example of drivers
+          - Docker, KVM2, VirtualBox, Podman, None (bare-metal), SSH
+
+
+Installation 
+- Go to https://kubernetes.io/ and find kubectl to install in linux 
+                                OR
+  Go to https://kubernetes.io/docs/tasks/tools/install-kubectl-linux/
+
+- https://minikube.sigs.k8s.io/docs/start/
+      - To start a cluster, run: "minikube start" -- empty cluster (not recommended)
+
+- https://www.virtualbox.org/wiki/Linux_Downloads
+    - sudo apt-get update
+    - sudo apt-get install virtualbox-6.1
+
+Configure Minikube
+    sudo usermod -aG docker $USER && newgrp docker
+    minikube start --driver=<Driver Name>        = docker
+
+- Common commands
+  - minikube status --> to chekc the status of min8ikube
+  - kubectl cluster-info --> to check the status of kubectl
+
+Everything is Object
+- Pods, Deployments, Services, Volume, Network etc.
+
+  • Pods
+    - Pod will run inside a Node
+    - Pod contains the Containers
+    - Usually, 1 Pod contains 1 Container
+    • It has cluster IP (Internal)
+    - Containers inside the POD can communicate with each other using localhost
+    - Pods are ephemeral. i.e. Pods are temporary, and Kubectl add/remove PODS on run time based on the load/traffic/requirement
+    • To manage Pods controller is required e.g. Deployment Object
+
+  - Deployment
+    - It controls the Pods
+    - You can set your desire, K8 will change the state using Deployment
+    • It defines that which POD and Container to run and how number of instances
+    - Deployment is scalable
+    - We don't directly deal with PODS, but deployment setup the PODS.
+
+  - services
+    - helps to establish a network link with pods/server/local machine
+
+
+STEPS - 
+
+1. Create a repo on dockerhub - kube-first-app
+2. npm init -yes
+3. npm install express body-parser
+4. create and code app.js, Dockerfile
+docker images
+5. create a local image out of docker file
+  sudo docker build -t rashig00/kube-first-app:latest .
+6. tag the local image with docker hub repo name
+    to change the name of the image to the one at dockerhub
+      sudo docker tag first-app rashig00/kube-first-app:latest
+7. push the image 
+  sudo docker login
+  sudo docker push rashig00/kube-first-app:latest
+
+  https://hub.docker.com/repository/docker/rashig00/kube-first-app
+
+8. Create a New Deployment (first-app) with the Docker Hub Repo Image  
+    - kubectl create deployment first-app --image rashig00/kube-first-app:latest
+      - first-app is the name of deployment
+      - this will create a deployment and a pod 
+  To check, we can get the Pods and Deployments using
+    - kubectl get deployments --> list all the deployments
+    - kubectl get pods --> list all the pods
+    - kubectl get services
+  To check the Web based status, in detail
+    - minikube dashboard
+  Create the Service to access the Pod's application using load balancing tech
+    - kubectl expose deployment first-app --port=8080 --type=LoadBalancer
+      --> the port is the one we exposed in dockerfile
+    - sudo usermod -aG docker $USER && newgrp docker
+    - minikube service first-app --url
+      --> This will return the url of the service
+
+Give /error in the url and run this again - kubectl get deployments, kubectl get pods 
+    - k8 will restart the service  
+
+minikube can install only one engine, if we want to start new engine then we have to delete
+    the previously created engines using
+      - minikube delete --all
+    
+- CleanUp
+    kubectl delete service hello-node
+    kubectl delete deployment first-app
+    
+- To fetch the details
+    kubectl describe deployments
+
+- Scaling
+    kubectl scale deployment/first-app --replicas=3 # don't use this way for scaling
+
+Amazon Elastic Kubernetes Service (EKS) , home in linux is at /home/user
+
+- Update the image
+  - Modify the source code
+  - docker build -t rashig00/kube-first-app:2 .
+  - docker push rashig00/kube-first-app:2
+  - kubectl set image deployment/first-app kube-first-app=rashig00/kube-first-app:2 -> to update the image
+      - kube-first-app is the name of the container
+      - find it by -> kubectl describe deployments
+  - kubectl rollout status deployment/first-app
+  - kubectl get pods
+
+
+# NEW APP
+
+Using yaml file automation
+  - create deployment.yaml
+  - create service.yaml
+  To apply both files
+    - kubectl apply -f=deployment.yaml
+    - kubectl apply -f=service.yaml
+  To delete both files
+    - kubectl delete -f=deployment.yaml
+    - kubectl delete -f=service.yaml
+  - sudo usermod -aG docker $USER && newgrp docker
+  - minikube service backend --url
+
+make changes in the deployment.yaml file and apply the deployment file again 
+the changes will be made on the browser sutomatically
+
+
+
+REPLACEMENT FOR MINIKUBE
+
+AWS 
+  - For private data centers using Minikube
+  • cloud Providers i.e. AWS, Azure, Google Cloud ect..
+    - Handle Manually using EC2 / VMs manually
+    - Use managed services like AWS EKS.
+
+  - Create a Cluster using EKS
+    - Go to EKS Service in the AWS Console
+    - Name the cluster, in my case it's eksCluster
+    - Open a new tab and go to IAM Service
+    - Create New Role
+      - Select AWS Service Type
+      - Under the Use Cases -> Select EKS from the Drop Down -> Select EKS Cluster option to allow cluster permissions to 
+      - Name EKS Role and Create it without any further modifications. i.e. eksClusterRole
+      - Go back to the Cluster Creation Page, reload the role dropdown and select the item 
+    - Create a new VPC 
+      - Go to Cloud Formation 
+      - Create Stack
+      - Go to https://docs.aws.amazon.com/eks/latest/userguide/creating-a-vpc.html#create-vpc
+      - Select the IPv4 url and provide the URL into the Cloud Formation Template S3 field
+      - Without further modification, provide a name to VPC and create the stack. i.e. eksVpc
+      - Go back to Cluster page and refresh the drop down of VPC ad select eksVpc vpc
+    - Further select Cluster End Point Access to Public and Private 
+    - Move towards without any modificaions and create the cluster
+
+    - Install AWS cli on your machine 
+        https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html#cliv2-linux-install
+          - curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+          - unzip awscliv2.zip
+          - sudo ./aws/install
+          - aws --version
+    - to update the config file of kubectl, that can be found in the home directory in the .kube folder
+    - generate AWS Access Key by selecting the security tab from the profile window or from the IAM page
+    - make sure to download the CSV File of access key
+    - Now, go to the command prompt to configue the AWS with these new Access Keys
+      RUN ->  aws configure
+    - Connect and create a context with your logged in AWS account, CLuster and local kubectl
+      RUN ->  aws eks --region us-east-1 update-kubeconfig --name eksCluster
+              kubectl get pods
+    - Go to Cluster -> Configuration -> Compute -> Create NOde Group 
+    - Create Role for Node Group 
+      - Go to IAM
+      - Create Role
+      - Select EC2 Use Case and click next 
+      - Search following and choose the appropriate settings - 
+        - Search eksworker -> AmazonEKSWorkerNodePolicy
+        - Search cni -> AmazonEKS_CNI_Policy
+        - Search ec2containerreg -> AmazonEC2ContainerRegistryReadOnly
+      - Once done, go back to the Node Group Creation, refresh the role and select the role you created
+      - Once instance are ready, create Node JS, deployment and service xml and apply it through kubectl
+      - kubectl get services will return the URL of ELB to access the web portal  
+
+
+
+
+
+
+
+

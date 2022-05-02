@@ -1,0 +1,912 @@
+PYTHON
+- case sensitive
+
+# input 2 numbers and calculate their total
+
+firstno = input("Enter the 1st number:")
+secondno = input("Enter the 2nd number:")
+result = firstno + secondno
+print ("Total =",result)
+
+
+>> 3+4 = 34
+
+firstno = int(input("Enter the 1st number:"))
+secondno = int(input("Enter the 2nd number:"))
+result = firstno + secondno
+print ("Total =",result)
+
+>> 3 + 4 = 7
+
+firstno = int(input("Enter the 1st number:"))
+secondno = int(input("Enter the 2nd number:"))
+result = firstno + secondno
+print (f"Total of {firstno} and {secondno} = {result}")  # formatted print
+
+
+#Enter today's temp in degree celsius and show the fahrenheit value
+# C/5 = (F-32)/9 => F = (C/5)*9 + 32 --use float()
+
+C = float(input("Enter the temperature:"))
+F = (C/5)*9+32 
+print ("Degree Celsius = ", C)
+print ("Fahrenhei = ",F)
+
+
+# Find Square root of a number
+
+import math
+number = float(input("Enter a number:"))
+result = math.sqrt(number)
+print(f"Square root of {number} = {result}")
+
+>> Enter a number:34.4
+   Square root of 34.4 = 5.865151319446072
+
+
+import math
+number = int(input("Enter a number:"))
+result = math.sqrt(number)
+print("Square root of %d = %.3f" %(number,result))
+
+>> Enter a number:34
+   Square root of 34 = 5.831
+
+
+
+x = 19
+y = 5
+print(x//y)  -- quotient
+print(x/y)  -- exact division
+print(x%y)  -- remainder
+print(2**4)  --power
+
+>> 3
+   3.8
+   4
+   16
+
+
+# Lab Exercise Day 1 - To check divisibilty by 7
+
+number = int(input("Enter no."))
+rem = number%7
+if rem == 0:
+    print("Divisible")
+else:
+    print("Not Divisible")
+print("End")
+
+
+# Lab exercise 2 - print a pay slip
+1. Knowledge of Looping  -- while(not aware of the range) and for(know the range)
+2. Few Functions which are particularly related to String
+
+name = input("Enter the name:")
+salary = input("Enter the monthly salary:")
+#print("NAME           Monthly Salary")
+#print("****           **************")
+#print(f"{name}        {salary}")
+print(f"Name\t\tMonthly Salary\n****\t\t**************\n{name}\t{salary}")
+
+            OR
+
+name = input("Enter the name:")
+salary = float(input("Enter the monthly salary:"))
+#print(f"Name\t\tMonthly Salary\n****\t\t**************\n{name}\t%.2f" %salary)
+print(f'Name\t\tMonthly Salary\n****\t\t**************\n{name}\t\t%.2f' %salary) 
+
+
+# Input a no. and check if it is divisible by 5 and 8
+
+myno=int(input("Enter Your No")) 
+result1=myno % 5 
+result2=myno % 8 
+if (result1==0 and result2==0): # 40
+  print("%d is Divisible By Both 5 And 8" %myno) 
+elif (result1!=0 and result2==0): 
+  print("%d is Divisible by 8 But Not by 5" %myno) 
+elif (result1==0 and result2!=0): 
+  print("%d is Divisible by 5 But Not by 8" %myno) 
+elif (result1!=0 and result2!=0): 
+  print("%d is Not Divisible by 5 And 8" %myno) 
+print("Program Ended") 
+
+
+# while loop
+
+choice="Y"
+while (choice=="Y" or choice=="y"):
+    name = input("Enter the name:")
+    salary = float(input("Enter the monthly salary:"))
+    print(f'Name\t\tMonthly Salary\n****\t\t**************\n{name}\t\t%.2f' %salary) 
+    choice = input("want to continue ?")
+    if(choice=="Y" or choice=="y"):
+        continue
+    else:
+        break
+print("Ended")
+
+
+choice="Y"
+while (choice=="Y" or choice=="y"):
+    name = input("Enter the name:") 
+    while True:
+        salary = float(input("Enter the monthly salary:"))
+        if(salary<30000):
+            print("Salary can't be less than 30000.....Correct it")
+            continue
+        else:
+            break
+    print(f'Name\t\tMonthly Salary\n****\t\t**************\n{name}\t\t%.2f' %salary) 
+    choice = input("want to continue ?")
+    if(choice=="Y" or choice=="y"):
+        continue
+    else:
+        break
+print("Ended")
+
+
+# For Loop
+# Print all the natural numbers from 1 to 10
+print("List of Natutal Numbers")
+for x in range(1,10):  #outer limit is excluded
+    print(x)  #x is called iterator
+
+# Print all the even numbers from 1 to 10
+print("List of Natutal Numbers")
+for x in range(2,11,2):
+    print(x)  
+
+# Print all the even numbers from 10 to 1 in reverse order
+print("List of Natutal Numbers")
+for x in range(10,1,-2):
+    print(x)  
+
+
+
+#input a number and print its table till 10 using for loop
+8
+8x1 = 8
+8x2 = 16
+.
+.
+8x10 = 80
+
+x = int(input("Enter a number"))
+print(f"Table of {x}")
+for i in range(1,11):
+    print("%d x %d = %d" %(x,i,x*i))
+
+
+x = 90
+print(type(x))
+>> <class 'int'>
+
+x = 90.2
+print(type(x))
+>> <class 'float'>
+
+x = "90 - A model town"
+print(type(x))
+>> <class 'str'>
+
+
+#Input a no. and print if its a perfect no. or not
+8 
+1+2=3+4 = 7
+8 is not equal to 7 and hence 8 is not a perfect no.
+6(1+2+3=6) => perfect no.
+28(1+2+3+4+5+6+7)
+
+num = int(input("Enter a number:"))
+sum =0
+for x in range(1,num): #8
+    if(num%x==0):
+        sum = sum+x #1+2=3+4=7
+
+if(sum == num):
+    print(f"{num} is a perfect number")
+else:
+    print(f"{num} is not a perfect number")
+
+
+
+
+# Lab exercise 2 - print a pay slip [modified]
+
+choice="Y"
+while (choice=="Y" or choice=="y"):
+    while True:
+        name = input("Enter the name:").title().strip()   #.title() == Rashi Gupta, .strip() == Removes all the trialing and leading spaces 
+        if(len(name)==0):
+            print("Name can't be blank...")
+            continue
+        else:
+            break
+    while True:
+        salary = float(input("Enter the monthly salary:"))
+        if(salary<30000):
+            print("Salary can't be less than 30000.....Correct it")
+            continue
+        else:
+            break
+    while True:
+        email = input("Enter Mail ID: ").lower().strip()
+        if(email.endswith("@innovaccer.com")):
+            break
+        else:
+            print("Email ID should be official.... Enter correct mail id")
+            continue
+    print(f'Name\t\tMonthly Salary\n****\t\t**************\n{name}\t\t%.2f' %salary) 
+    choice = input("want to continue ?")
+    if(choice=="Y" or choice=="y"):
+        continue
+    else:
+        break
+print("Ended")
+
+
+#Counting Words
+#It is raining in Paris - How can you find no. of words?
+mystr = "It is raining in Paris since morning"
+words=mystr.split() #will divide the whole string into different parts
+print("Total Words = %d" %len(words))
+
+
+#Enter the IP address of a Local Server and Display all the Octats
+#E.g. if you enter an IP address like - 172.34.56.100 - it should display the o/p as 
+#List of Octats are
+#172
+#34
+#56
+#100
+
+num = input("Enter ip address:")
+x = num.split(".")
+print(x)
+print("List of Octats are")
+for i in x:
+    print(i)
+
+
+
+#String Manipulation or String Slicing
+
+orgname = "Innovaccer Analytics"
+shortname = orgname[2:6]
+print(shortname)
+
+#For a number to check if it is palindrome treat it as a string 
+name = input("Enter a string:")
+rev = name[::-1]
+print(rev)
+if(name == rev):
+    print("Palindrome")
+else:
+    print("Not a palindrome")
+
+
+
+#lab exercise 4
+
+circuitid = "LON/LON/LE-123456"
+newcircuitid = circuitid.split("/")
+encryptedcircuitid = newcircuitid[2]
+print(encryptedcircuitid)
+encryptedcircuitid = encryptedcircuitid[0:2] + "XXX" + encryptedcircuitid[2::]
+#output = newcircuitid[0] + "/" + newcircuitid[1] + "/" + encryptedcircuitid
+output = newcircuitid[0] + "/" + newcircuitid[1] +"/"+ encryptedcircuitid[:9] + "XXX"
+print("Encrypted Circuit Id = ", output) 
+
+
+
+#how to check a mobile number it it is entered through input()?
+
+empname = input("Enter Employee name ").strip().title()
+while True:
+    mobno = input("Enter mobile num ").strip()
+    if(len(mobno)==10 and mobno.isdigit()):
+        print("Employee Name = ", empname)
+        print("Contact no = ",mobno)
+        break
+    else:
+        print("Mobile number is invalid... Please Retry")
+        continue
+print("Data Captured")
+
+
+DAY#2
+
+# List Program  -- can have duplicate values -- mutable
+# append, extend, sort, pop, remove
+
+course1=["Sql Server","Azure","OpenStack","Python Programming","AWS","Java","Linux"] 
+print(type(course1)) 
+course2=["Soft Skills", "Time Management", "Managerial Behaviour", "Sharp Communication"]
+course3 = course1+course2
+course3.append("Ansible")
+course3.append("Big Data")
+course3.remove("Time Management")
+course3.sort()
+#course3.sort(reverse=True) # sorting in descending order
+course3.pop()  #remove the last element
+course3.pop(0)
+print("List of all available courses")
+print("*****************************")
+print(course3)
+for x in course3:
+    print(x)
+print("Total no. of courses = %d" %len(course3))
+
+
+#Searching in a list
+
+course1=["Sql Server","Azure","OpenStack","Python Programming","AWS","Java","Linux"] 
+coursename = input("Enter Course Name to search :").strip().upper()  #To remove leading and trailing spaces if present
+course3 = [] #It will create a blank list
+for x in course1:
+    course3.append(x.upper()) # ['SQL SQERVER','AZURE','OPENSTACK',...,'LINUX'] 
+if(coursename in course3):
+    print("%s is available" %coursename)
+else:
+    print("%s is not available" %coursename)
+
+
+# Numeric List 
+
+pricelist=[650,700,290,710,1200,840,535,542]
+print(type(pricelist))
+print("Max price = %d" %max(pricelist))
+print("Min price = %d" %min(pricelist))
+print("Sum of all prices = %d" %sum(pricelist))
+print("Avg price = %.2f" %(sum(pricelist)/len(pricelist)))
+print("Avg price = %.2f" %(round(sum(pricelist)/len(pricelist))))
+
+
+
+#list task
+
+feedbackmail=['akanksha.gupta@sify.com','Deepak.sharma@sify.com','karan.Bhatia@sify.com','sarah.baswa@sify.com','raveesh.bhatt@sify.com','sheetal@Hotmail.com','jatin.sai@saidata.com','andy.maggy@colt.net','prashun.das@sify.com'] 
+lowerlist = []
+for x in feedbackmail:
+    lowerlist.append(x.lower())
+
+sifyid =[]
+notsifyid=[]
+
+for x in lowerlist:
+    if(x.endswith('@sify.com')):
+        sifyid.append(x)
+    else:
+        notsifyid.append(x)
+
+print("Sify:",sifyid)
+print("Notsify:",notsifyid)
+
+li1=[]
+for x in lowerlist:
+    if(x.startswith('p') or x.startswith('s')):
+        li1.append(x)
+
+print("Starting with p or s :" ,li1)
+
+while(True):
+    fin = input("Enter the id to be searched:").strip().lower()
+    if(fin in lowerlist):
+        print(f"{fin} is present in the list")
+    else:
+        print(f"{fin} is not present")
+    con = input("Check another?y/n:").strip().lower()
+    if(con == 'n'):
+        break
+print("Ended")
+#feedbackmail.append('rashi.gupta@innovaccer.com')
+#email = input("Enter the mail to be searched :")
+#if (email in feedbackmail):
+#    print("available")
+#else:
+#    print("not available")
+
+
+
+# Tuple Formation -- immutable (can't perform sort, remove, pop, append)
+
+deplist = ("Purchase", "HR", "FSO","L & D", "NIS", "Sales")
+print(type(deplist))
+newdept=list(deplist)
+newdept.append("Software Division")
+newdept.sort()
+deplist=tuple(newdept)
+print("Currently all depts are")
+for x in deplist:
+    print(x)
+    
+print("No. of depts are = %d" %len(deplist))
+
+del(deplist)
+del(newdept)
+
+print("Memory is cleaned up")
+
+# Numeric Tuple
+
+pricelist=(650,700,290,710,1200,840,535,542)
+print(type(pricelist))
+print("Max price = %d" %max(pricelist))
+print("Min price = %d" %min(pricelist))
+print("Sum of all prices = %d" %sum(pricelist))
+print("Avg price = %.2f" %(sum(pricelist)/len(pricelist)))
+print("Avg price = %.2f" %(round(sum(pricelist)/len(pricelist))))
+
+
+#tuple task
+
+stations=("New Delhi","Agra”,”Kanpur","Aligarh","Mughalsarai","Kanpur" ,"Allahabad") 
+
+newlist = list(stations)
+
+for i in range(len(newlist)):
+    if(newlist[i]=="Mughalsarai"):
+        newlist[i]="Deen Dayal Upadhaya"
+    elif(newlist[i]=="Allahabad"):
+        newlist[i]="Prayagraj"
+
+#newlist.append("Deen Dayal Upadhaya")
+#newlist.remove("Mughalsarai")
+#newlist.remove("Allahabad")
+#newlist.append("Prayagraj")
+
+stations=tuple(newlist)
+print(stations)
+
+
+# Working with set 
+
+myset = {"Anushka", "Rajat", "Hitesh","Imaran", "Jatin", "Rajinder", "Neelam"}
+print(type(myset))
+
+projectset = {"Rajat","Imaran", "Jatin", "Rajinder","Anushka", "Neelam","Hitesh"}
+print(myset==projectset)
+
+# 1. order of elements doesn't matter -- unordered
+# 2. Cannot contain duplicate values  -- no duplicates
+# 3. mixed datatypes allowed
+# 4. Sorting is not possible but addition and removal can be done on a set
+
+course1=["Sql Server", "Ansible", "Linux", "Openstack"]
+course2=["Ansible","Java","AWS","Kubernetes","Linux"]
+course3=course1+course2
+overallcourset=set(course3)
+print(overallcourset)
+
+# How can we create a blank set?
+blankset = set()
+print(type(blankset))
+
+# How can we poplulate a set with some values from a blank situation
+
+myset = set()
+while True:
+    countryname = input("Enter the location:").strip().title()
+    myset.add(countryname)
+    choice=input("Want to continue ?").strip().upper()
+    if(choice=='Y'):
+        continue
+    else:
+        break
+
+print("The locations are:")
+for x in myset:
+    print(x)
+
+
+#operations on set
+
+pricorus = {"Sales","IT","CSO","FSO","LDM"}
+symphony = {"Sales","CSO","Purchase","HR","Admin"}
+
+#symphony has procured pricorus
+newdepts=pricorus - symphony #finding the difference
+print("New depts to be formed")
+print(newdepts)
+print("Total new depts = %d" %len(newdepts))
+
+cdept=pricorus & symphony  # & stands for intersection
+print("Common Depts To Be Formed")
+print(cdept)
+print("Total Common Depts = %d "%(len(cdept)))
+
+alldepts=symphony | pricorus  # | means Union
+print("Overall Depts Are")
+print(alldepts)
+print("Total Depts=%d" %len(alldepts))
+
+
+#Working with dictionary
+
+projectset={"P001":("Appraisal Process","Hyderabad",25,"22-Feb-22"), 
+            "P022":("HR Recruitment","Kolkata",16,"22-Feb-22"), 
+            "P090":("SAP Updation","Bengaluru",16,"23-Feb-22"), 
+            "P023":("HR Recruitment","Mumbai"), 
+            "P009":("Tax Updation","Kolkata",20)} 
+
+lastyearproject = {"P010":("5G Implementation","Mumbai",30),
+                   "P088":("Audit Process","Chennai",12,"28-Dec-21")}
+    
+projectset.update(lastyearproject)
+
+print(type(projectset))
+#print(projectset)
+print("No. of projects = %d" %len(projectset))
+print("List the projects in hand")
+print("Project Codes")
+print("*************")
+print(projectset.keys())
+print("Project Details")
+print("***************")
+print(projectset.values())
+
+print(sorted(projectset)) #prints the sorted dict basis on the key values
+print(sorted(projectset, reverse=True)) #sorts in the descending order 
+
+
+#If keys are duplicated the data for the particular key is overridden or updates 
+#Keys can't be duplicated but the values for a key can be updated 
+
+#How can we search an element inside a dictionary?
+# Searching is possible only on key values in a dictionary
+
+pcode=input("Enter project code :").strip().upper()
+if(pcode in projectset.keys()):
+    print("Project code: ",pcode)
+    print("Project Detail: " + str(projectset.get(pcode)))
+else:
+    print(f"{pcode} is not available")
+
+blankdictionary = {}
+
+
+# pip ---> package installer for python 
+
+#Functions   
+
+#Lambda -- Lambdas are useful to write oneline code instead of making a function 
+import math
+findsqroot = lambda x: math.sqrt(x)
+
+#myno = int(input("Enter your number : "))
+#result = findsqroot(myno)
+#print("Square root of %d = %.2f" %(myno,result))
+
+mylist = [34,45,29,65,64,81,85,18,46]
+resultlist = map(findsqroot,mylist)
+
+print(list(resultlist))
+
+#filter() is used when some pattern is observed/condition is involved
+#map doesn't change any condition
+
+#Lab exercise for lambda
+feedbackmail=['akanksha.gupta@sify.com',
+              'Deepak.sharma@sify.com',
+              'karan.Bhatia@sify.com',
+              'sarah.baswa@sify.com',
+              'raveesh.bhatt@sify.com',
+              'sheetal@Hotmail.com',
+              'jatin.sai@saidata.com',
+              'andy.maggy@colt.net',
+              'prashun.das@sify.com'] 
+
+lambda1 = lambda s: s.endswith("@sify.com")
+lambda2 = lambda s: not s.endswith("@sify.com")
+
+sifylist= filter(lambda1,feedbackmail) #filter() is used when some condition is involved
+nonsifylist = filter(lambda2,feedbackmail)
+
+print(tuple(sifylist))
+print(tuple(nonsifylist))
+
+
+
+DAY#3
+
+employee--> it means a general model and thus it will be treated as a class. 
+When I am specifying some value inside a class it means I am referring to an object. 
+A Class+Values=Object 
+A class is considered as a general Model where as objects are the real life example of a class 
+
+
+#Book Class
+
+class Book:
+    def EnterBookDetail(self):
+        self.bookname = input("Enter book name:").strip().title()
+        self.author = input("Enter author name:").strip().title()
+        self.price = input("Enter price:")
+        self.publishername = input("Enter publisher name:").strip().title()
+
+    def ShowBookDetail(self):
+        print("Book Name = ",self.bookname)
+        print("Author Name = ",self.author)
+        print("Book Price = ",self.price)
+        print("Publisher = ",self.publishername)
+            
+book1=Book()  #book1 is the object of this class
+book1.EnterBookDetail()  #Book.EnterDetail(book1)
+book1.ShowBookDetail() 
+print("All Information Displayed")
+print(type(book1))
+del(book1)
+
+
+#constructor
+
+class Book:
+    def __init__(self,pub="BPB"):  #constructor
+        self.publishername=pub
+    def EnterBookDetail(self):
+        self.bookname = input("Enter book name:").strip().title()
+        self.author = input("Enter author name:").strip().title()
+        self.price = input("Enter price:")
+        #self.publishername = input("Enter publisher name:").strip().title()
+
+    def ShowBookDetail(self):
+        print("Book Name = ",self.bookname)
+        print("Author Name = ",self.author)
+        print("Book Price = ",self.price)
+        print("Publisher = ",self.publishername)
+            
+book1=Book()  #Book.Book(book1)
+book1.EnterBookDetail()  #Book.EnterDetail(book1)
+book1.ShowBookDetail() 
+
+book2 = Book("Penguine") #Book.Book(book2,"Penguine")
+print("All Information Displayed")
+book2.EnterBookDetail() 
+book2.ShowBookDetail() 
+
+del(book1)
+del(book2)
+print("All Books Entered")
+
+
+#Inheritance
+
+class furniture: 
+    def __init__(x ,cl="Brown"): 
+        x.color=cl 
+
+    def InputDetail(x): 
+        x.fname=input("Enter the Furniture Name").title().strip() 
+        x.price=int(input("Enter the Price")) 
+        x.material=input("Enter the Material").title().strip() 
+    
+    def DisplayDetail(x): 
+        print("Furtniture Name =%s" %x.fname) 
+        print("Price = %d" %x.price) 
+        print("Material =%s " %x.material) 
+        print("Color =%s " %x.color) 
+
+class Chair(furniture): 
+    def GetDetail(x1): 
+        x1.No_Legs=int(input("Enter No of Legs"))
+    def ShowDetail(x1):
+        print("No of Legs = %d" %x1.No_Legs) 
+
+class Almirah(furniture): 
+    def EnterDetail(x1): 
+        x1.No_Shelf=int(input("Enter No of Shelves")) 
+    def AllDetail(x1): 
+        print("No of Shelf = %d " %x1.No_Shelf) 
+
+myalmirah=Almirah("Green") # Creating object of Almirah Class 
+mychair=Chair() # Creating an object Chair Class 
+mychair.InputDetail() 
+mychair.GetDetail() 
+mychair.DisplayDetail() 
+mychair.ShowDetail()
+
+myalmirah.InputDetail() 
+myalmirah.EnterDetail() 
+myalmirah.DisplayDetail() 
+myalmirah.AllDetail()
+
+
+#File Handling
+
+class Book:
+    def __init__(self,pub="BPB"):  #constructor
+        self.publishername=pub
+    def EnterBookDetail(self):
+        self.bookname = input("Enter book name:").strip().title()
+        self.author = input("Enter author name:").strip().title()
+        self.price = input("Enter price:")
+        #self.publishername = input("Enter publisher name:").strip().title()
+
+    def ShowBookDetail(self):
+        print("Book Name = ",self.bookname)
+        print("Author Name = ",self.author)
+        print("Book Price = ",self.price)
+        print("Publisher = ",self.publishername)
+
+    def AddFile(self):
+        try:
+            fv = open('/home/tempadmin/Documents/python/BookList.txt',"a")  #opening the file in append mode
+            data= self.bookname+","+self.author+","+str(self.price)+","+self.publishername+"\n"
+            fv.write(data)
+            print("Record Added Successfully")
+        except:
+            print("Sorry Exception Occured...")
+        finally:
+            fv.close()
+
+
+book1=Book()  #book1 is the object of this class  #Book.Book(book1)
+book1.EnterBookDetail()  #Book.EnterDetail(book1)
+book1.ShowBookDetail() 
+book1.AddFile()
+book2 = Book("Penguine") #Book.Book(book2,"Penguine")
+print("All Information Displayed")
+book2.EnterBookDetail() 
+book2.ShowBookDetail() 
+book2.AddFile()
+
+del(book1)
+del(book2)
+print("All Books Entered")
+
+
+--------------------------------------------
+class Book:
+    def __init__(self,pub="BPB"):  
+        self.publishername=pub
+    def EnterBookDetail(self):
+        try:
+            self.bookname = input("Enter book name:").strip().title()
+            self.author = input("Enter author name:").strip().title()
+            self.price = input("Enter price:")
+            #self.publishername = input("Enter publisher name:").strip().title()
+        except ValueError:
+            print("Price should be in numeric only")
+
+    def ShowBookDetail(self):
+        print("Book Name = ",self.bookname)
+        print("Author Name = ",self.author)
+        print("Book Price = ",self.price)
+        print("Publisher = ",self.publishername)
+
+    def AddFile(self):
+        try:
+            #Opening the file in append mode
+            fv = open('/home/tempadmin/Documents/python/BookList.txt',"a")  
+            data= self.bookname+","+self.author+","+str(self.price)+","+self.publishername+"\n"
+            fv.write(data)
+            print("Record Added Successfully")
+        except PermissionError:    #It's a special exceptional handler and it will execute at a particular point of time
+            print("Permission Denied")
+        except FileNotFoundError:
+            print("File culd not be found")
+        except IOError:
+            print("Sorry, there is some hardware failure,file couldn't be saved..")
+        except:                    # It's a default exceptional handler. It should be put at the end before finally block.
+            print("Sorry Exception Occured...")
+        finally:
+            fv.close()
+
+
+book1=Book()  #book1 is the object of this class  #Book.Book(book1)
+book1.EnterBookDetail()  #Book.EnterDetail(book1)
+book1.ShowBookDetail() 
+book1.AddFile()
+book2 = Book("Penguine") #Book.Book(book2,"Penguine")
+print("All Information Displayed")
+book2.EnterBookDetail() 
+book2.ShowBookDetail() 
+book2.AddFile()
+#print(type(book1))
+del(book1)
+del(book2)
+print("All Books Entered")
+
+
+
+
+# How To Read the Records From a File 
+# How can I Count No. of Records And The Size of the File? 
+
+import os 
+
+try: 
+    fv=open("/home/tempadmin/Documents/python/BookList.txt","r") 
+    mydata=fv.read()   #To read the content of a file
+    filesize=os.path.getsize("/home/tempadmin/Documents/python/BookList.txt")
+    print("File Size = %d" %filesize)
+    print("File Records are")
+    print(mydata)
+    lines=mydata.split("\n")
+    print("No of Records = %d" %(len(lines)-1))
+    fv.close()
+
+except FileNotFoundError: 
+    print("Sorry File is Not Found") 
+except PermissionError: 
+    print("Sorry...Read Permission Denied") 
+except IOError: 
+    print("Sorry IO Error Occured...") 
+except MemoryError: 
+    print("Sorry...Memory is Insufficient") 
+except: 
+    print("Sorry...Some Exception Raised") 
+
+print("Program Ended")
+
+
+
+#To Read Pdf File u need to install a particular module PyPDF2 
+
+import PyPDF2
+from PyPDF2 import PdfFileReader
+
+#Creating a pdf file object and opening the file in rb mode pdf is the file handler
+try:
+    pdf = open("pdfnotes.pdf","rb")  #Creating pdf reader object
+    pdf_reader = PyPDF2.PdfFileReader(pdf)
+    #Checking total number of pages in a pdf file
+    print("Total number of pages :", pdf_reader.numPages)
+except FileNotFoundError:
+    print("File is not present")
+except PermissionError:
+    print("Permission Denied")
+
+
+#pandas is a package which internally uses some other different packages as well - numpy, openpyxl, xlrd...etc 
+#pandas was introduced in Python in 2016 and further python got tremendous popularity in the IT Market 
+#CSV = comma seperated values
+
+import pandas
+mydata=pandas.read_csv("Covid19.csv")
+#print(mydata)
+#index values appear automatically on the left side column
+print(type(mydata))
+
+mydata1=mydata.to_string(index=False)
+print(mydata1)
+
+
+------------------------------
+import ipaddress
+try: 
+    pp=ipaddress.ip_address(input("Enter Valid IP Address")) 
+    print("IP Address Obtained : " + str(pp)) 
+except ValueError: 
+    print("Invalid IP Address") 
+
+
+
+#Using Covid19.csv file we shall try to find out the max death & the Minimum death as well. 
+#We've to find out average no. of death cases. 
+
+import pandas
+import os
+
+mydata=pandas.read_csv("/home/tempadmin/Documents/python/Covid19.csv")
+max_deaths = mydata['Total  Deaths'].max()
+min_deaths = mydata['Total  Deaths'].min()
+avg_deaths = mydata['Total  Deaths'].mean()
+
+print("max deaths = ",str(max_deaths))
+print("min deaths = ",str(min_deaths))
+print("avg deaths = ",str(avg_deaths))
+
+os.system('cp /home/tempadmin/Documents/python/Covid19.csv /home/tempadmin/Documents/python/Covid19_1.csv')
+
+------------------------
+import pandas
+import os
+
+mydata=pandas.read_csv("/home/tempadmin/Documents/python/Covid19_1.csv")
+#print(mydata)
+mydata1=mydata.dropna()  #used to remove blank rows
+print(mydata1)
+

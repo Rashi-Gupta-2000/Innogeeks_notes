@@ -1,0 +1,32 @@
+# github url
+1. Make all the files and push them on github 
+   but never provide AWS access key to files that are in public repo on github
+# docker hub url
+2. To dockerize the project 
+  - build a docker image 
+      sudo docker build -t rashig00/sdk:7.0 .
+  - create a conatiner 
+      sudo docker run -it --name new_cont -p 5000:5000 -e AWS_ACCESS_KEY_ID=AKIA4DWVZTGTXUUKFG4I -e AWS_SECRET_ACCESS_KEY=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 -e AWS_DEFAULT_REGION=us-east-1 rashig00/sdk:7.0
+  - docker login
+      sudo docker login
+  - push the image on docker hub
+      sudo docker push rashig00/sdk:7.0
+# ec2 public ip => url
+3.  - Create a ec2 instance with a key pair 
+    - Open the terminal
+    - Go to Downloads 
+    - Select the EC2 instance -> click connect -> SSH client -> copy chmod and ssh command 
+    - Run the chmod and ssh command 
+    - after entering ubuntu environment run 
+      - sudo apt-get update
+      - sudo apt install docker.io
+      - sudo snap install docker
+      - docker --version 
+    - Pull the image pushed on dockerhub  
+      - sudo docker pull rashig00/sdk:7.0
+    - click on the instance -> security -> click on the security groups -> add a inbound rule with port 5000
+    - Create a container in the ec2 instance 
+      - sudo docker run -it --name new_cont -p 5000:5000 -e AWS_ACCESS_KEY_ID=AKIA4DWVZTGTXUUKFG4I -e AWS_SECRET_ACCESS_KEY=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 -e AWS_DEFAULT_REGION=us-east-1 rashig00/sdk:7.0
+    - Copy the public IPv4 address of the ec2 instance and add port 5000 after it
+      - http://54.196.164.44:5000
+ 

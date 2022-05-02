@@ -1,0 +1,305 @@
+LINUX
+-----------------
+
+IMPORTANT KNOW HOW ABOUT LINUX
+  - Linux has ROOT user which is kind of Super User and has power to delete anything including the OS itself
+  - Linux is a Case-Sensitive OS. LS is not equal to ls. ABC.txt is not same as abc.txt
+  - Linus Torvalds did not develop the Linux Operating System. He did develop the Linux KERNAL.
+  - Linux Kernal is NOT an OS. It's a middle layer between hardware and user.
+  - Linux is all about CLI and not the UI.
+
+File System Format
+  - ext3
+  - ext4
+  - xfs
+  - ntfs
+  - fat
+  - FAT16 (Windows)
+  - FAT32 (Windows)
+  - NTFS (Network File System) (Windows)
+
+What is Root?
+  - Root Account --> The most powerful user account (User)
+  - Root as / --> This is the first directory, also known as Root Directory
+  - Root Home /root --> This is the Home Directory of a ROOT user
+
+Commands
+  - date
+  - cal
+  - pwd
+  - man
+  - -help
+  - cd 
+  - mv -R
+  - cp -R
+  - ls -ll
+  - rm -rf
+  - unlink
+  - mkdir
+  - cat
+  - head
+  - tail
+  - head -n <number of lines> 
+  - tail -n <number of lines>
+  - touch
+  - echo "Message" > a.txt
+  - echo "Just to print"
+  - rmdir
+  - nano
+  - vi
+  - clear # Ctrl + L
+
+Wildcard Characters
+  - * --> It represents zero or more characters
+  - ? --> It presents a Single Char
+  - [] --> represents the range of the char
+  - touch abc{1..9}pqr.txt
+
+- File System Structure
+
+
+DAY#2
+
+Commmon Commands
+  - alias and unalias
+  - shutdown (with and without -r  -- restart)
+  - hostname <newname>
+  - cat
+  - echo "test"
+  - printenv --> print all of the environment values
+  - MYKEY=MYVAL --> setting up a new variable in enivronment known as MYKEY
+  - echo $MYKEY --> this will print the value of MYKEY env variable we setup in the last command
+  - lscpu --> hardware config 
+  - free -h
+  - df -h  --> report file system disk space usage
+  - zip and unzip (later)
+  - history (!<number>)
+  - ifconfig #also gets the ip address of the computer
+  - apt-get
+    - apt-get install <package name> (like 'net-tools')
+    - apt-get remove <package name>
+    - apt-get update
+    - apt-get upgrade
+    - apt-get purge --> This also removes the configuration files if created by the package
+    - apt-get clean --> To clean the local cache of the database
+  
+Symlinks
+  - What is Inode? 
+        It's an identification of a folder or a file in numeric format  
+  - Soft Symlink
+  - Hard Symlink
+
+File Permission
+  - 3 types of permissions
+    - r  --> READ
+    - w  --> WRITE
+    - x  --> EXECUTE
+  - 3 levels where the permission can be configured or applied
+    - u  --> USER LEVEL
+    - g  --> GROUP LEVEL
+    - o  --> OTHERS (Everyone on the system)
+  - ls -l -rw-rw-r--
+            User                Group                 Others {everyone else}
+    - read write execute   read write execute   read write execute 
+  - Numerical Permissions
+    https://www.tutorialspoint.com/unix/unix-file-permission.htm 
+
+      Number 	Octal Permission Representation                               	Ref
+        0    	  No permission                 	                              ---
+        1 	    Execute permission 	                                          --x
+        2 	    Write permission 	                                            -w-
+        3 	    Execute and write permission: 1 (execute) + 2 (write) = 3 	  -wx
+        4 	    Read permission                	                              r--
+        5     	Read and execute permission: 4 (read) + 1 (execute) = 5 	    r-x
+        6     	Read and write permission: 4 (read) + 2 (write) = 6 	        rw-
+        7     	All permissions: 4 (read) + 2 (write) + 1 (execute) = 7 	    rwx
+
+
+  - chmod 000
+  - chmod 600
+  - chmod 700
+  - chmod 777   -- rwx = giving all permissions to everyone
+
+
+FILE OWNERSHIP - 
+  - 2 types of users who can own a file/folder
+      - Owned by User who owned the Group 
+      - Owned by User who owns the file 
+
+      - To change the OWNER USER of a file
+        sudo chown root another.txt
+
+      - To change the OWNER GROUP of a file
+        sudo chgrp root another.txt
+
+
+      Mayur is part of group Developer Group 
+      a.txt owned by Mayur user
+      b.txt owned by Developer Group
+
+
+DAY#3
+
+
+USER and GROUPS
+  - groups [username]
+  - list all the groups from thr file /etc/group and cat group command.
+  - sudo groupadd innogeeks #[groupname]  = visible in etc folder by cd /etc and can run cat group
+  - sudo usermod -a -G innogeeks parallels #[group_name] [user_name]
+  - id
+  - sudo useradd mayur #[username]
+        sudo usermod -a -G innogeeks mayur
+        cat group   =  innogeeks:x:1003:tempadmin,rashi
+  - sudo groupdel innogeeks #[groupname]
+  - sudo passwd
+  - sudo passwd rashi #[username]   = set up password for a new user 
+      - groups can most probably have passwords but is never used in corporate
+          - there is a command = gpasswd
+  - sudo userdel #[username]   --- this will only removes the user but not the home directory 
+  - sudo userdel -r #[username]   --- also removes the home directory with the user
+  - in etc   - sudo cat sudoers
+
+
+PROCESSES ans JOBS
+  - Application --> It's a program in your computer like calculator. Also k/a Service.
+  - Script --> Written in a file or file package in a way it can be executed. Like Shell Script / Bash Script
+  - Process --> When u run an application, a process get created for the application. It also generated a PID (Process Id)
+  - Daemon --> Something runs in the background and execute a service until the service completes the work. Like Alarm Service.  #exists only for a time and kills when work is done
+  - Thread --> Every process can have 1 or more Threads associated with it. Like Service/Process --> Thread1, Thread 2, Thread 3 ...
+  - Job --> It runs a Service/Application or Process on the scheduled or a given time. Job Management. CRON JOB.  #in the background this is inherited from the daemon
+
+    Application --> Process --> Thread 1, Thread 2, Thread 3, ... Thread 10
+
+Processes and Commands
+  - sudo sytemctl start|stop|restart|status|reload <servicename>
+  - sudo service apache2 start #exactly what systemctl does  ## old command
+  - sudo systemctl enable|disable apache2
+  - sudo systemctl list-units --all  #all processes running on the computer
+
+    #ps is not realtime
+  - ps --> Showing the current processes in the current shell
+  - ps -e --> Shows all the running processes on the computer 
+  - ps aux --> To see every process on the system and every detail of the process
+  - ps -ef --> f = full format
+  - ps -e | grep 'searchtext' #grep is used to search can be used with any command like ls, cat
+  - ps -u <username> --> u = specific user
+  - top  #realtime view of the processes with cpu & memory consumption
+  - top -u <username> #processed owned by the user
+  - top + k <pid>  = kill a process #killing top exits the top command
+  - top + c for full path
+  - kill <pid>
+  - kill -9 <pid> --> used to forcefully kill the service
+
+
+SSH Configuration 
+  - Install open SSH Server using
+      sudo apt install openssh-server
+  - sudo systemctl start ssh
+  - from Mac or Windows 
+      ssh username @ipaddress
+    
+Ping Command 
+  - ping <domain name>  --> if the domain is responding #to get the ip address #check if there is a connection #checks the dns route
+  - nslookup <ip> 
+  - curl <web url>  --> get the html code
+  - curl -O <url> --> This will download the file/web page
+  - wget <url> --> download any sort of file as well as webpages by downloading the html files #same as curl -O
+
+Shell Script 
+  --> Find the shell scripts       ------  myscript1.sh
+        - How to set the timer   = cat /etc/crontab
+
+Memory management Commands
+  - df -h  --> human readable format for the physical local storage
+  - df -h | grep -v tmpfs   -->  here tmps is ignored as grep finds tmps 
+  - 
+  - du -ah /home/parallels/Documents/symlinkdemo --> finds this path files
+  - du -a /home/parallels/Documents/ | sort -nr  --> in bytes (and h means human readable format)
+  - du -a /home/parallels/Documents/ | sort -nr | more  --> shows 1 page
+
+Check the Processes 
+  - top --> real time processes
+  - free -h --> ran details
+  - lsmem --> technical details on the system level
+  - cat /proc/meminfo --> info is copied from a physical file in the proc folder of the root location, meminfo gives all the details about ram consumption by diff services
+  - vmstat  --> swap memory details
+  - pmap <pid>  --> all the ram consumption details of the file
+  - sudo dmidecode --> system config or hardware info
+  - lscpu  --> current cpu details
+  - cat /proc/cpuinfo  --> cpu details
+  - iostat -y 5 #disk management details after every 5 seconds 
+      - sudo apt install sysstat
+    
+Network Commands
+  - sudo tcpdump -i eth0 --> monitor the traffic going on our card
+  - sudo tcpdump -i <network> | grep <search text>   --> monitor someone if using particular websites or using certain words
+  - netstat -plnt --> shows active internet connections (current oprn port)
+  - ss -plnt --> same as earlier but detailed
+  - uptime  --> time when the machine was up and running (may b middle of night)
+  - /var/logs --> Shows logs  
+  - tail -20 <logfile>.log
+
+Firewall
+  - iptables --> older version
+  - firewalld  --> newer
+  - ufw  --> uncomlicated firewall
+      - sudo apt install ufw
+      - sudo systemctl start ufw
+      - sudo ufw enable | disable
+      - sudo ufw allow <port>
+      - sudo ufw status
+      - sudo ufw deny <port> 
+
+
+DAY#4
+
+
+GIT
+-----------------
+- What is GIT? VCS - Version Control System
+- What is the difference b/w GIT and GITHUB? 
+  - GIT is an SCM server software which powers the GIT framework.
+  - GITHub is one of the SAAS (Software as a Service) provider company, like GitLab, Sourceforge, bitbucket...
+
+- Created an empty git local repository inside of a local folder by
+    git init #ls does not show the file but ls -a shows the empty hidden file .git
+- Created a Remote Repository with GITHUB
+- Connected the Remote Repo with a local repo by
+    git remote add origin <repo name>
+- Create a local file with a content
+- Add and track the file in git using 
+    git add <filename> #git add.
+- git status
+- Configure git for the 1st time as a one timer task 
+    git config --global user.email "you@example.com"
+    git config --global user.name "Your Name"
+- save the commit by
+    git commit -m "Message"
+- Push the commit to the remote origin / server
+    git push --set-upstream origin master
+
+# Rashi's Token = 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
+
+- Optionally, we can clone the Remote repository
+    git clone https://github.com/Rashi-Gupta-2000/innogeeksv1.git
+- git pull --> download the changes pushed by other developers
+- git stash  --> To revert the unstaged data
+
+c1 -> c2 -> c3 -> c4 -> c5 -> c6 (zip) -> c7 -> c8 ..c50
+                          c5.1 -> c5.2
+              
+- git branch --> shows all the branches present
+- git branch <branch name> --> creates new  branch
+- git checkout <branch name> --> switch to the other branch
+- git merge <branch name> --> the <branch name> would merge the branch to the current branch be it another branch or the master branch 
+    Before merging, you should update your local branch
+
+- git log--oneline  --> To see our commit history
+- git revert  --> undo the given commit, but will create a new commit without deleting the older one
+    The advantage of using git revert is that it doesn't touch the commit history. 
+    This means that you can still see all of the commits in your history, even the reverted ones. 
+    Another safety measure here is that everything happens in our local system unless we push them to the remote repo.
+
+
+
+
