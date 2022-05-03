@@ -92,3 +92,17 @@ admin Interface
         - add book  
         - delete book button 
 Like book --> latika & riya
+
+DAY#4 --> 1 May
+Dockerise, Docker-Compose, Atlas
+
+DAY#5 --> 2 May 
+- browse books from the library
+- filter them based on category, author, etc..
+
+
+DOCKER COMPOSE
+- docker-compose build
+- docker-compose up
+- docker push rashig00/bookstore-server:latest
+- docker push rashig00/bookstore-client:latest
