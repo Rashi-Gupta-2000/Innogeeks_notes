@@ -372,3 +372,92 @@ do everything with s3 via boto3 in .py files --> run using python3 lists3.py
 - Elastic Beanstalk
   - 
   
+
+# Steps
+-CI /CD with AWS
+  - CI
+    - Developer -> Push to the GIT -> CI tools immediately code integrate kar deta hein
+  - CD
+    - Integrate -> Build -> Test -> Deploy
+
+  These tools constantly montior the git repo.
+  Tools available in cloud and aws
+
+-AWS CI/CD tools
+  - Code Commit -> GIT / Offers Repository
+  - Code Pipeline (CI/CD) (Elastic Beanstalk) -> Helps in creating (CI/CD) Pipeline.
+  - Code Build
+  - Code Deploy
+  - Code Star
+  - Code Artifacts
+  - S3
+  - CodeGuru (Efficiency)
+
+-Hands on
+  - Create a Repo
+  - Publish a NodeJs code
+  - Create a Pipeline
+  - Deploy the code on EC2 Instance
+  - It should reload the NodeJS Instance
+
+-Code Commit
+  ->Create a repo.
+      ->Repo Name-> MyNodeApp1
+      ->Click on create
+      ->Copy the http url and paste it in any editor.  (git clone https://git-codecommit.us-east-1.amazonaws.com/v1/repos/Mynodecommit1)
+      ->Add file->Create file 
+      ->Write "Welcome to Node app" inside the MyNodeApp1.
+      ->File name-> Readme.txt, Author name-> Riya Lodha, Email address->riya.lodha@innovaccer.com, Commit message-> Initial Commit
+      ->Click on Commit changes
+
+      ->Now we will clone this repo and bring it to local machine
+      ->Create a new folder in vs code and integrate it into the terminal.
+          -> git clone ... (The url that we copy and pasted it in the editor.)
+          ->If getting error in cloning then we will create a user
+              -> Go to IAM -> Users -> khwaslab..user-> Security cred.-> (HTTP Git Credentials)-> Generate cred.->Download cred.
+              -> Go to CodeCommit -> Repo. -> Select MyNodeApp1 ->Clone URL ->Clone HTTPS
+          ->In vs code ,in that folder, we should be able to see MyNodeApp1 and inside that readme.txt
+          ->Add some changes in readme.txt
+          ->Go to integrated terminal of MyNodeApp1 and run these commands-
+                ->git add .
+                ->git commit -m "First Commit"
+                ->git push
+          ->Now check in aws in MyNodeApp1 in readme.txt file the changes.
+
+-BeanStalk
+  ->Create Application
+    ->App. name->MyBeanStalkApp1, Tag-> key=id, Value=bean1
+    ->Platform-> Node.js
+    ->Application Code-> Sample Application
+    ->Click on Create Application.
+  ->Now go to EC2 service and we can see that instances, volumes,etc. are automatically created.
+  ->Now go to BeanStalk->Environments -> A url has been created, copy it and paste on the tab.(THe url is for load balancer.)
+
+-CodePipeline
+  ->Click on create pipeline.
+  ->Pipeline name=MyPipeline, Service role=New service role,Tick on Allow AWS services and click Next.
+  ->Add Source stage -> Source Provider = AWS CodeCommit and Click on other parameters and select default value and click on Next.
+  ->Skip build stage
+  ->Add Deploy Stage-> Deploy = AWS Elastic Beanstalk and select default parameters and click on Next.
+  ->Click on Create Profile.
+
+->Copy all the files from Node.js zip file and paste it in the ci/cd folder. 
+->Then in terminal run these commands-
+    -> git add .
+    -> git commit -m "Second Commit"
+    -> git push
+->Then check on CodePipeline -> MyPipeline --> It will show that deployment is successfull.
+->Now make some changes in index.html file and run those 3 git commands and see the changes.
+
+Beanstalk-
+  ->Create another environment -> Select Web server env.
+  -> App. name=MyNodePROD, env name= Mynodeprod-envprod, domain= mynodeprod
+  ->Platform -> Managed platform -> Node.js, App code-> Sample App.
+  ->Click on Create env.
+Go to CodePipeline -> MyPipeline
+
+
+
+
+
+

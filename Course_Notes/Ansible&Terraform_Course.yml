@@ -71,3 +71,41 @@ cd TerraformClass/aws/
 terraform init
 terraform apply
 
+# main.tf
+
+variable "myvar"{
+    type = string
+    default = "Hello Terraform" 
+}
+
+variable "mymap" {
+    type = map(string)
+    default = {
+        mykey = "My Value"
+    }
+}
+
+# aws-ec2.tf
+
+provider "aws" {
+    access_key = "AKIA4DWVZTGT5NMUVWMF"
+    secret_key = "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"
+    region     = "us-east-1"
+}
+
+resource "aws_instance" "myubuntu1" {
+    ami           =  "ami-09d56f8956ab235b3"
+    instance_type = "t2.micro"
+}
+
+resource "aws_s3_bucket" "innotestterraform" {
+    bucket = "innotestterraform"
+    acl = "private"
+    versioning {
+        enabled = true
+    }
+    tags ={
+        Name = "Inno Bucket"
+        Environment = "Dev Instance"
+    }
+}

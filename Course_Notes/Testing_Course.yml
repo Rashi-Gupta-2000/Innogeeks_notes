@@ -1,0 +1,14 @@
+Python Testing 
+
+- if cases are to be considered test cases then the keyword test is neccessary at the start
+- python3 -m unittest test_calc.py 
+- if any of the test cases fail in a def func the whole func fails
+
+- if __name__=='__main__':
+    unittest.main()
+
+    - python3 test_employee.py 
+
+WebSocket 
+
+pip install flask_socketio
